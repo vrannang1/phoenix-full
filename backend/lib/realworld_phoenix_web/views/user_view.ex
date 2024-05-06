@@ -1,6 +1,7 @@
 defmodule RealworldPhoenixWeb.UserView do
   use RealworldPhoenixWeb, :view
   alias RealworldPhoenixWeb.UserView
+  alias RealworldPhoenix.ImageUploader
 
   def render("index.json", %{users: users}) do
     %{user: render_many(users, UserView, "user.json")}
@@ -32,7 +33,7 @@ defmodule RealworldPhoenixWeb.UserView do
       email: user.email,
       username: user.username,
       bio: user.bio,
-      image: user.image
+      image: ImageUploader.url({user.image,user}, String.to_atom("thumb"))
     }
   end
 

@@ -23,9 +23,6 @@ defmodule RealworldPhoenix.ImageUploader do
 
   # Override the storage directory:
   def storage_dir(_version, {_file, scope}) do
-
-    IO.inspect scope, label: "Scope for storage_dir"
-
     "uploads/images/#{scope.uuid}"
   end
 

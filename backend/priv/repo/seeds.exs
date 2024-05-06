@@ -10,12 +10,9 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias RealworldPhoenix.Repo
 alias RealworldPhoenix.Articles
-alias RealworldPhoenix.Articles.Article
 
 alias RealworldPhoenix.Accounts
-alias RealworldPhoenix.Accounts.User
 
 {:ok, user} =
   %{

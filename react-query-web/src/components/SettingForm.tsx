@@ -19,8 +19,6 @@ const SettingForm = ({ data }: ISettingFormProps) => {
     password: '',
   });
 
-  console.log('userData => ', userData);
-
   const isFormValid = () => {
     return userData.password.length > 0;
   };
@@ -29,9 +27,6 @@ const SettingForm = ({ data }: ISettingFormProps) => {
 
   const onUpdateSetting = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    console.log('user data is ', userData);
-
     putUserMutation.mutate(
       { user: userData },
       {
@@ -57,7 +52,7 @@ const SettingForm = ({ data }: ISettingFormProps) => {
               // value={userData.image}
               onChange={onChangeUserData}
             />
-            <img src={userData.image} alt={userData.username} />
+            <img src={userData.image} width="80" height="80" alt={userData.username} />
           </fieldset>
           <fieldset className="form-group">
             <input

@@ -27,14 +27,15 @@ defmodule RealworldPhoenixWeb.UserController do
   end
 
   def update(conn, %{"user" => user_params}) do
-
     params = for {key, val} <- user_params, into: %{}, do: {String.to_atom(key), val}
-
     user = Guardian.Plug.current_resource(conn)
 
     with {:ok, %User{} = user} <- Accounts.update_user(user, params) do
       {:ok, token, _} = encode_and_sign(user)
       render(conn, "show.json", user: user, token: token)
+    else 
+      {:error, changeset} ->
+        render(conn, "show.json", error: changeset)
     end
   end
 
@@ -47,16 +48,5 @@ defmodule RealworldPhoenixWeb.UserController do
       {:error, msg} ->
         render(conn, "login.json", error: msg)
     end
-
-    # user = Accounts.get_user_by_email(email)
-
-    # case Bcrypt.check_pass(user, password, hash_key: :password) do
-    #   {:error, msg} ->
-    #     render(conn, "login.json", error: msg)
-
-    #   _ ->
-    #     {:ok, token, _} = encode_and_sign(user)
-    #     render(conn, "show.json", user: user, token: token)
-    # end
   end
 end

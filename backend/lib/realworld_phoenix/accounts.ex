@@ -33,7 +33,8 @@ defmodule RealworldPhoenix.Accounts do
       nil ->
         {:error, "Invalid email or password"}
       user ->
-        if Bcrypt.verify_pass(password, user.password) do
+        IO.inspect user
+        if Bcrypt.verify_pass(password, user.hashed_password) do
           {:ok, user}
         else
           {:error, "Invalid email or password"}
@@ -74,11 +75,10 @@ defmodule RealworldPhoenix.Accounts do
 
   """
   def update_user(%User{} = user, attrs) do
-
-    IO.inspect attrs
-
     user
     |> User.changeset(attrs)
+    |> User.validate_current_password(attrs[:password])
+    |> IO.inspect
     |> Repo.update()
   end
 
