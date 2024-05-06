@@ -1,14 +1,19 @@
 import { QUERY_USER_KEY } from '@/constants/query.constant';
 import useInputs from '@/lib/hooks/useInputs';
 import queryClient from '@/queries/queryClient';
-import { usePutUserMutation } from '@/queries/user.query';
+// import { usePutUserMutation } from '@/queries/user.query';
+import { putUser } from '@/repositories/users/usersRepository';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 interface ISettingFormProps {
   data: { [key: string]: string | number };
 }
 
 const SettingForm = ({ data }: ISettingFormProps) => {
+  const [error, setError] = useState({
+    password: '',
+  });
   const navigate = useNavigate();
   const [userData, onChangeUserData] = useInputs({
     email: data.email,
@@ -23,23 +28,34 @@ const SettingForm = ({ data }: ISettingFormProps) => {
     return userData.password.length > 0;
   };
 
-  const putUserMutation = usePutUserMutation();
+  // const putUserMutation = usePutUserMutation();
 
   const onUpdateSetting = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    putUserMutation.mutate(
-      { user: userData },
-      {
-        onSuccess: () => {
+    putUser({ user: userData })
+      .then((res) => {
+        if (res.data.errors) {
+          setError({
+            password: res.data.errors.current_password,
+          });
+        } else {
           queryClient.invalidateQueries({ queryKey: [QUERY_USER_KEY] });
-          navigate('/');
-        },
-      },
-    );
+          navigate('/', { replace: true });
+        }
+        console.log('res from putUser', res);
+      })
+      .catch((err) => {
+        setError({
+          password: err.response.data.errors.current_password,
+        });
+      });
   };
 
   return (
     <>
+      <ul className="error-messages">
+        {error.password && <li>password {error.password}</li>}
+      </ul>
       <form onSubmit={onUpdateSetting}>
         <fieldset>
           <fieldset className="form-group">
