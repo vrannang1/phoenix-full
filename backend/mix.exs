@@ -33,7 +33,7 @@ defmodule RealworldPhoenix.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5.9"},
+      {:phoenix, "~> 1.5.13"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.11"},
       {:postgrex, ">= 0.0.0"},

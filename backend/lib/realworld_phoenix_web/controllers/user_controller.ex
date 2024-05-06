@@ -6,7 +6,7 @@ defmodule RealworldPhoenixWeb.UserController do
 
   import RealworldPhoenix.Guardian
 
-  action_fallback RealworldPhoenixWeb.FallbackController
+  action_fallback(RealworldPhoenixWeb.FallbackController)
 
   def create(conn, %{"user" => user_params}) do
     with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
@@ -14,6 +14,9 @@ defmodule RealworldPhoenixWeb.UserController do
 
       conn
       |> render("show.json", user: user, token: token)
+    else
+      {:error, changeset} ->
+        render(conn, "show.json", error: changeset)
     end
   end
 
@@ -33,15 +36,24 @@ defmodule RealworldPhoenixWeb.UserController do
   end
 
   def login(conn, %{"user" => %{"email" => email, "password" => password}}) do
-    user = Accounts.get_user_by_email(email)
-
-    case Bcrypt.check_pass(user, password, hash_key: :password) do
-      {:error, msg} ->
-        render(conn, "login.json", error: msg)
-
-      _ ->
+    case Accounts.get_user_by_email_and_password(email, password) do
+      {:ok, user} ->
         {:ok, token, _} = encode_and_sign(user)
         render(conn, "show.json", user: user, token: token)
+
+      {:error, msg} ->
+        render(conn, "login.json", error: msg)
     end
+
+    # user = Accounts.get_user_by_email(email)
+
+    # case Bcrypt.check_pass(user, password, hash_key: :password) do
+    #   {:error, msg} ->
+    #     render(conn, "login.json", error: msg)
+
+    #   _ ->
+    #     {:ok, token, _} = encode_and_sign(user)
+    #     render(conn, "show.json", user: user, token: token)
+    # end
   end
 end

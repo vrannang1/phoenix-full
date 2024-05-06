@@ -23,13 +23,19 @@ const SignInPage = () => {
     event.preventDefault();
     postLogin(signIndata)
       .then((res) => {
-        console.log(res);
-        token.setToken(ACCESS_TOKEN_KEY, res.data.user.token);
-        setIsLogin(!!token.getToken(ACCESS_TOKEN_KEY));
-        navigate('/', { replace: true });
+        if (res.data.errors) {
+          setError({
+            email: res.data.errors.email,
+            password: res.data.errors.password,
+            emailOrPassword: res.data.errors.emailOrPassword,
+          });
+        } else {
+          token.setToken(ACCESS_TOKEN_KEY, res.data.user.token);
+          setIsLogin(!!token.getToken(ACCESS_TOKEN_KEY));
+          navigate('/', { replace: true });
+        }
       })
       .catch((err) => {
-        console.log(err);
         setError({
           email: err.response.data.errors.email,
           password: err.response.data.errors.password,

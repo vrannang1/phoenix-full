@@ -28,6 +28,21 @@ defmodule RealworldPhoenix.Accounts do
     Repo.get_by(User, email: email)
   end
 
+  def get_user_by_email_and_password(email, password) do
+    case get_user_by_email(email) do
+      nil ->
+        {:error, "Invalid email or password"}
+      user ->
+        if Bcrypt.verify_pass(password, user.password) do
+          {:ok, user}
+        else
+          {:error, "Invalid email or password"}
+        end
+      end
+  end
+
+
+
   @doc """
   Creates a user.
 

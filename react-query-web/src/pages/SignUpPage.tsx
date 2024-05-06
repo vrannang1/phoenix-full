@@ -22,9 +22,17 @@ const SignUpPage = () => {
     event.preventDefault();
     postRegister(signUpdata)
       .then((res) => {
-        token.setToken(ACCESS_TOKEN_KEY, res.data.user.token);
-        setIsLogin(!!token.getToken(ACCESS_TOKEN_KEY));
-        navigate('/', { replace: true });
+        if (res.data.errors) {
+          setError({
+            email: res.data.errors.email,
+            password: res.data.errors.password,
+            username: res.data.errors.username,
+          });
+        } else {
+          token.setToken(ACCESS_TOKEN_KEY, res.data.user.token);
+          setIsLogin(!!token.getToken(ACCESS_TOKEN_KEY));
+          navigate('/', { replace: true });
+        }
       })
       .catch((err) => {
         setError({

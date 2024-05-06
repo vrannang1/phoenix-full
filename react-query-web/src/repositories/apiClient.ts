@@ -10,7 +10,7 @@ const apiClient = axios.create({
 
 const logOnDev = (message: string, log?: AxiosResponse | InternalAxiosRequestConfig | AxiosError) => {
   if (process.env.NODE_ENV === 'development') {
-    console.log(message, log);
+    return;
   }
 };
 

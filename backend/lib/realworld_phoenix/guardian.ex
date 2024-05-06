@@ -13,7 +13,7 @@ defmodule RealworldPhoenix.Guardian do
     {:ok, sub}
   end
 
-  def subject_for_token(_, _) do
+  def subject_for_token() do
     {:error, :reason_for_error}
   end
 
@@ -26,7 +26,7 @@ defmodule RealworldPhoenix.Guardian do
     {:ok, resource}
   end
 
-  def resource_from_claims(_claims) do
+  def resource_from_claims() do
     {:error, :reason_for_error}
   end
 end

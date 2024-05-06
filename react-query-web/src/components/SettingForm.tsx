@@ -14,9 +14,12 @@ const SettingForm = ({ data }: ISettingFormProps) => {
     email: data.email,
     username: data.username,
     bio: data.bio,
+    photoUrl: {},
     image: data.image,
     password: '',
   });
+
+  console.log('userData => ', userData);
 
   const isFormValid = () => {
     return userData.password.length > 0;
@@ -26,6 +29,8 @@ const SettingForm = ({ data }: ISettingFormProps) => {
 
   const onUpdateSetting = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    console.log('user data is ', userData);
 
     putUserMutation.mutate(
       { user: userData },
@@ -45,12 +50,14 @@ const SettingForm = ({ data }: ISettingFormProps) => {
           <fieldset className="form-group">
             <input
               className="form-control"
-              type="text"
+              type="file"
               placeholder="URL of profile picture"
-              name="image"
-              value={userData.image}
+              name="photoUrl"
+              accept="image/png, image/jpeg"
+              // value={userData.image}
               onChange={onChangeUserData}
             />
+            <img src={userData.image} alt={userData.username} />
           </fieldset>
           <fieldset className="form-group">
             <input

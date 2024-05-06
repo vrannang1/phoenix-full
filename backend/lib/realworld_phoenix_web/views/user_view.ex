@@ -10,14 +10,20 @@ defmodule RealworldPhoenixWeb.UserView do
     %{user: render_one(user, UserView, "user.json", params)}
   end
 
+  def render("show.json", %{error: changeset} ) do
+    %{
+      errors: changeset_errors(changeset)
+    }
+  end
+
   def render("user.json", %{user: user, token: token}) do
     render("user.json", %{user: user})
     |> Map.put_new(:token, token)
   end
 
-  def render("login.json", %{error: error}) do
+  def render("login.json", %{error: _error}) do
     %{
-      errors: %{"email or password": ["is invalid"]}
+      errors: %{emailOrPassword: "is invalid"}
     }
   end
 
@@ -28,5 +34,9 @@ defmodule RealworldPhoenixWeb.UserView do
       bio: user.bio,
       image: user.image
     }
+  end
+
+  defp changeset_errors(changeset) do
+    changeset.errors |> Enum.map(fn {field, {error, _details}} -> Map.put(%{}, field, error) end) |> Enum.at(0)
   end
 end
