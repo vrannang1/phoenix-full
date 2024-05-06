@@ -27,9 +27,12 @@ defmodule RealworldPhoenixWeb.UserController do
   end
 
   def update(conn, %{"user" => user_params}) do
+
+    params = for {key, val} <- user_params, into: %{}, do: {String.to_atom(key), val}
+
     user = Guardian.Plug.current_resource(conn)
 
-    with {:ok, %User{} = user} <- Accounts.update_user(user, user_params) do
+    with {:ok, %User{} = user} <- Accounts.update_user(user, params) do
       {:ok, token, _} = encode_and_sign(user)
       render(conn, "show.json", user: user, token: token)
     end

@@ -14,6 +14,7 @@ defmodule RealworldPhoenix.Articles.Article do
     field :description, :string
     field :slug, :string
     field :title, :string
+    field :uuid, :string
     belongs_to :author, User
 
     field :favorited, :boolean, virtual: true
@@ -29,7 +30,8 @@ defmodule RealworldPhoenix.Articles.Article do
   @doc false
   def changeset(article, attrs) do
     article
-    |> cast(attrs, [:title, :description, :body, :author_id])
+    |> cast(attrs, [:title, :description, :uuid, :body, :author_id])
+    |> check_uuid
     |> cast_assoc(:author)
     |> put_assoc(:tagList, parse_tags(attrs))
     |> validate_required([:title, :description, :body])
@@ -55,5 +57,13 @@ defmodule RealworldPhoenix.Articles.Article do
   defp get_or_insert_tag(name) do
     Repo.get_by(Tag, name: name) ||
       Repo.insert!(%Tag{name: name})
+  end
+
+  defp check_uuid(changeset) do
+    if get_field(changeset, :uuid) == nil do
+      force_change(changeset, :uuid, Ecto.UUID.generate())
+    else
+      changeset
+    end
   end
 end

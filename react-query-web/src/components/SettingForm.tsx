@@ -53,7 +53,7 @@ const SettingForm = ({ data }: ISettingFormProps) => {
               type="file"
               placeholder="URL of profile picture"
               name="photoUrl"
-              accept="image/png, image/jpeg"
+              accept="image/*"
               // value={userData.image}
               onChange={onChangeUserData}
             />

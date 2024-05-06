@@ -47,7 +47,9 @@ defmodule RealworldPhoenix.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:guardian, "~> 2.0"},
       {:bcrypt_elixir, "~> 2.0"},
-      {:corsica, "~> 1.0"}
+      {:corsica, "~> 1.0"},
+      {:arc, "~> 0.11.0"},
+      {:arc_ecto, "~> 0.11.3"},
     ]
   end
 

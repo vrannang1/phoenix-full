@@ -8,6 +8,7 @@ defmodule RealworldPhoenix.Repo.Migrations.CreateUsers do
       add :bio, :string
       add :image, :string
       add :password, :string
+      add :uuid, :string
 
       timestamps()
     end

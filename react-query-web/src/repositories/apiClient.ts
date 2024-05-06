@@ -16,11 +16,15 @@ const logOnDev = (message: string, log?: AxiosResponse | InternalAxiosRequestCon
 
 apiClient.interceptors.request.use((request) => {
   const jwtToken: string | null = token.getToken(ACCESS_TOKEN_KEY);
+
   const { method, url } = request;
 
   if (jwtToken) {
     request.headers['Authorization'] = `Token ${jwtToken}`;
+    request.headers['Content-Type'] = 'multipart/form-data';
   }
+
+  console.log('Request from apiClient', request);
 
   logOnDev(`🚀 [${method?.toUpperCase()}] ${url} | Request`, request);
 
