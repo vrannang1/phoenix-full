@@ -15,6 +15,7 @@ defmodule RealworldPhoenix.Articles.Article do
     field :slug, :string
     field :title, :string
     field :uuid, :string
+    field :tags, {:array, :string}, default: []
     belongs_to :author, User
 
     field :favorited, :boolean, virtual: true
@@ -30,7 +31,7 @@ defmodule RealworldPhoenix.Articles.Article do
   @doc false
   def changeset(article, attrs) do
     article
-    |> cast(attrs, [:title, :description, :uuid, :body, :author_id])
+    |> cast(attrs, [:title, :description, :uuid, :tags, :body, :author_id])
     |> check_uuid
     |> cast_assoc(:author)
     |> put_assoc(:tagList, parse_tags(attrs))

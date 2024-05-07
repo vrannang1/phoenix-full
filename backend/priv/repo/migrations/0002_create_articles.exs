@@ -5,9 +5,9 @@ defmodule RealworldPhoenix.Repo.Migrations.CreateArticles do
     create table(:articles) do
       add :slug, :string
       add :title, :string
-      add :description, :string
-      add :body, :string
-      add :tagList, {:array, :string}
+      add :description, :text
+      add :body, :text
+      add :tags, {:array, :string}
       add :favoritesCount, :integer
       add :author_id, references(:users)
       add :uuid, :string

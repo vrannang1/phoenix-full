@@ -50,6 +50,8 @@ defmodule RealworldPhoenix.MixProject do
       {:corsica, "~> 1.0"},
       {:arc, "~> 0.11.0"},
       {:arc_ecto, "~> 0.11.3"},
+      {:httpoison, "~> 1.8", only: :dev},
+      {:timex, "~> 3.7"},
     ]
   end
 

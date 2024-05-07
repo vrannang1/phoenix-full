@@ -25,7 +25,7 @@ defmodule RealworldPhoenix.Articles do
 
   @doc """
   Returns the list of articles.
-
+  Tag
   """
   def list_articles(params \\ []) do
     {limit, params} = params |> Keyword.pop(:limit, @default_limit)
@@ -37,6 +37,23 @@ defmodule RealworldPhoenix.Articles do
     |> offset(^offset)
     |> order_by(desc: :inserted_at)
     |> Repo.all()
+  end
+
+  def list_popular_tags() do
+    from(a in Article,
+      group_by: a.tags,
+      select: {a.tags, count(a.id)}
+    )
+    |> Repo.all()
+    |> Enum.map(fn article ->
+      elem(article, 0)
+      |> Enum.map(fn tags -> %{tags: tags, count: elem(article, 1)} end)
+    end)
+    |> List.flatten()
+    |> Enum.reduce(%{}, &Map.merge(&2, %{&1.tags => (&2[&1.tags] || 0) + &1.count}))
+    |> Enum.map(fn {key, value} -> %{tags: key, articles: value} end)
+    |> Enum.sort_by(& &1.articles, :desc)
+    |> Enum.take(12)
   end
 
   def list_articles_feed(user, params \\ []) do
