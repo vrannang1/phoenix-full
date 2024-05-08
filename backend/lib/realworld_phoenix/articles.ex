@@ -47,13 +47,13 @@ defmodule RealworldPhoenix.Articles do
     |> Repo.all()
     |> Enum.map(fn article ->
       elem(article, 0)
-      |> Enum.map(fn tags -> %{tags: tags, count: elem(article, 1)} end)
+      |> Enum.map(fn tags -> %{name: tags, count: elem(article, 1)} end)
     end)
     |> List.flatten()
-    |> Enum.reduce(%{}, &Map.merge(&2, %{&1.tags => (&2[&1.tags] || 0) + &1.count}))
-    |> Enum.map(fn {key, value} -> %{tags: key, articles: value} end)
+    |> Enum.reduce(%{}, &Map.merge(&2, %{&1.name => (&2[&1.name] || 0) + &1.count}))
+    |> Enum.map(fn {key, value} -> %{name: key, articles: value} end)
     |> Enum.sort_by(& &1.articles, :desc)
-    |> Enum.take(12)
+    |> Enum.take(20)
   end
 
   def list_articles_feed(user, params \\ []) do

@@ -4,11 +4,12 @@ defmodule RealworldPhoenixWeb.TagView do
 
   def render("index.json", %{tags: tags}) do
     %{
-      tags: render_many(tags, TagView, "tag.json")
+      tags: render_many(tags, TagView, "tagList.json")
     }
   end
 
-  def render("tag.json", %{tag: tag}) do
+  def render("tagList.json", %{tag: tag}) do
     tag.name
   end
+
 end

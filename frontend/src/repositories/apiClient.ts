@@ -24,8 +24,6 @@ apiClient.interceptors.request.use((request) => {
     request.headers['Content-Type'] = 'multipart/form-data';
   }
 
-  console.log('Request from apiClient', request);
-
   logOnDev(`🚀 [${method?.toUpperCase()}] ${url} | Request`, request);
 
   return request;
@@ -33,6 +31,8 @@ apiClient.interceptors.request.use((request) => {
 
 apiClient.interceptors.response.use(
   (response) => {
+
+    console.log("Resoonse is ", response);
     const { method, url } = response.config;
     const { status } = response;
 

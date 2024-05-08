@@ -21,25 +21,33 @@ alias RealworldPhoenix.Accounts
     password: "Mum130brad898"
   }
   |> Accounts.create_user()
-    categories = ~w(business entertainment general health science sports technology)
 
-    categories |> Enum.map(fn cat ->
-      1..5 |> Enum.map(fn page ->
-        newsapi =
-          "https://newsapi.org/v2/top-headlines?apiKey=726b4e0789a84a9683bb4b51531ad504&country=us&category=#{cat}&page=#{page}"
+categories = ~w(business entertainment general health science sports technology)
 
-        case HTTPoison.get(newsapi) do
-          {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-            body
-            |> Jason.decode!()
-            |> Map.get("articles")
-            |> Enum.map(fn article ->
+categories
+|> Enum.map(fn cat ->
+  1..5
+  |> Enum.map(fn page ->
+    newsapi =
+      "https://newsapi.org/v2/top-headlines?apiKey=726b4e0789a84a9683bb4b51531ad504&country=us&category=#{cat}&page=#{page}"
+
+    case HTTPoison.get(newsapi) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        body
+        |> Jason.decode!()
+        |> Map.get("articles")
+        |> Enum.map(fn article ->
+          case article["title"] == "[Removed]" do
+            true ->
+              :ok
+
+            _ ->
               Articles.create_article(%{
                 title: article["title"],
                 description: article["description"],
                 body: article["content"],
-                tags: [ article["source"]["name"]],
-                tagList: [ article["source"]["name"] ],
+                tags: [article["source"]["name"]],
+                tagList: [article["source"]["name"]],
                 image: article["url"],
                 photo_urls: [article["urlToImage"]],
                 favoritesCount: 0,
@@ -47,17 +55,17 @@ alias RealworldPhoenix.Accounts
                 # author: article["author"],
                 author_id: user.id
               })
+          end
+        end)
 
-            end)
+      {:ok, %HTTPoison.Response{status_code: 404}} ->
+        "Not found :("
 
-          {:ok, %HTTPoison.Response{status_code: 404}} ->
-            "Not found :("
-
-          {:error, %HTTPoison.Error{reason: reason}} ->
-            reason
-        end
-      end)
-    end)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        reason
+    end
+  end)
+end)
 
 # 1..10
 # |> Enum.each(fn i ->

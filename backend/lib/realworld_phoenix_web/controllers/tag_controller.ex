@@ -7,6 +7,6 @@ defmodule RealworldPhoenixWeb.TagController do
 
   def index(conn, _params) do
     conn
-    |> render("index.json", tags: Articles.list_tags())
+    |> render("index.json", tags: Articles.list_popular_tags())
   end
 end
