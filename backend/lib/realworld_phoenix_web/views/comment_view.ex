@@ -1,9 +1,10 @@
 defmodule RealworldPhoenixWeb.CommentView do
   use RealworldPhoenixWeb, :view
   alias RealworldPhoenixWeb.CommentView
-
+  alias RealworldPhoenix.ImageUploader
   alias RealworldPhoenix.Accounts.User
   alias RealworldPhoenix.Articles.Comment
+
 
   def render("list.json", %{comments: comments}) do
     %{comments: render_many(comments, CommentView, "comment.json")}
@@ -33,7 +34,7 @@ defmodule RealworldPhoenixWeb.CommentView do
     %{
       username: author.username,
       bio: author.bio,
-      image: author.image,
+      image: ImageUploader.url({author.image,author}, String.to_atom("thumb")),
       following:
         case author.following do
           nil -> false

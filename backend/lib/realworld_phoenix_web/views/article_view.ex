@@ -1,7 +1,7 @@
 defmodule RealworldPhoenixWeb.ArticleView do
   use RealworldPhoenixWeb, :view
   alias RealworldPhoenixWeb.ArticleView
-
+  alias RealworldPhoenix.ImageUploader
   alias RealworldPhoenixWeb.TagView
 
   def render("index.json", %{articles: articles}) do
@@ -40,7 +40,7 @@ defmodule RealworldPhoenixWeb.ArticleView do
     %{
       username: author.username,
       bio: author.bio,
-      image: author.image,
+      image: ImageUploader.url({author.image,author}, String.to_atom("thumb")),
       following: author.following
     }
   end

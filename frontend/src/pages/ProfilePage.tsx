@@ -4,23 +4,15 @@ import { useState } from 'react';
 import Profile from '@/components/Profile';
 import FeedList from '@/components/feed/FeedList';
 import Grid from '@mui/material/Grid';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import Container from '@mui/material/Container';
 
 
 
 const ProfilePage = () => {
   const { state } = useLocation();
-  const [value, setValue] = useState(0);
   const [page, setPage] = useState(1);
   const [isFavorited, setIsFavorited] = useState(false);
   const [profileInfo, articlesInfo] = useGetProfileQueries(state, page, isFavorited);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    value === 0 ? setIsFavorited(false) : setIsFavorited(true);
-    setValue(newValue);
-  };
 
   return (
     <div>

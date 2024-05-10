@@ -2,7 +2,7 @@ import useInputs from '@/lib/hooks/useInputs';
 import queryClient from '@/queries/queryClient';
 import { useCreateArticleMutation } from '@/queries/articles.query';
 import { QUERY_ARTICLES_KEY } from '@/constants/query.constant';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { ChildProcess } from 'child_process';
+// import { ChildProcess } from 'child_process';
 
 const NewArticlePage = () => {
   const navigate = useNavigate();

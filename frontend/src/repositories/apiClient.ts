@@ -8,7 +8,8 @@ const apiClient = axios.create({
   baseURL: host,
 });
 
-const logOnDev = (message: string, log?: AxiosResponse | InternalAxiosRequestConfig | AxiosError) => {
+// eslint-disable-next-line
+const logOnDev = (message?: string, log?: AxiosResponse | InternalAxiosRequestConfig | AxiosError) => {
   if (process.env.NODE_ENV === 'development') {
     return;
   }
@@ -32,7 +33,6 @@ apiClient.interceptors.request.use((request) => {
 apiClient.interceptors.response.use(
   (response) => {
 
-    console.log("Resoonse is ", response);
     const { method, url } = response.config;
     const { status } = response;
 

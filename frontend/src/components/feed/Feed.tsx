@@ -60,14 +60,14 @@ const Feed = ({ article }: IFeedProps) => {
     }
   };
 
-  const styles = { display: "flex", alignItems: "center" };
+  // const styles = { display: "flex", alignItems: "center" };
 
   return (
     <div style={{ padding: 20 }} >
       <Card sx={{ maxWidth: 900 }}>
         <CardHeader
           avatar={
-            <Avatar component={Link} to={`/profile/${article.author.username}`} state={article.author.username} alt={article.author.image} />
+            <Avatar src={article.author.image} component={Link} to={`/profile/${article.author.username}`} state={article.author.username} alt={article.author.image} />
           }
           action={
             <Button

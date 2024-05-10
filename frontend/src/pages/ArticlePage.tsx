@@ -7,13 +7,13 @@ import { useContext } from 'react';
 import { UserContext } from '@/contexts/UserContextProvider';
 import Comment from '@/components/article/Comment';
 import routerMeta from '@/lib/routerMeta';
-import convertToDate from '@/lib/utils/convertToDate';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
 
 const ArticlePage = () => {
   const { state } = useLocation();
@@ -25,7 +25,7 @@ const ArticlePage = () => {
 
       <Box sx={{ height: 150, color: '#fff', bgcolor: '#333', padding: '2rem', marginBottom: '2rem' }}>
         <Container maxWidth="lg">
-          <Typography variant="h3">
+          <Typography variant="h5">
             {articleInfo.data.title}
           </Typography>
           <Typography variant="body1">
@@ -54,80 +54,26 @@ const ArticlePage = () => {
       <Box sx={{ flexGrow: 1 }}>
         <Container maxWidth="lg">
           <ReactMarkdown children={articleInfo.data.body} remarkPlugins={[remarkGfm]}></ReactMarkdown>
+          {articleInfo.data.tagList.map((tag: string) => (
+            <Chip key={tag} label={tag} />
+          ))}
         </Container>
       </Box>
-      <div className="article-page">
-        <div className="banner">
-          <div className="container">
-            <div className="article-meta">
-              <Link to={`/profile/${articleInfo.data.author.username}`} state={articleInfo.data.author.username}>
-                <img src={articleInfo.data.author.image} alt="comment-author" />
-              </Link>
+      <Box sx={{ flexGrow: 1 }}>
+        <Container maxWidth="lg">
+          {isLogin ? (
+            <Comment comments={commentsInfo.data} slug={articleInfo.data.slug} />
+          ) : (
+            <p>
+              <Link to={routerMeta.SignInPage.path}>Sign in</Link>
+              &nbsp;or&nbsp;
+              <Link to={routerMeta.SignUpPage.path}>Sign up</Link>
+              &nbsp;to add comments on this article.
+            </p>
+          )}
 
-              <div className="info">
-                <Link
-                  to={`/profile/${articleInfo.data.author.username}`}
-                  state={articleInfo.data.author.username}
-                  className="author"
-                >
-                  {articleInfo.data.author.username}
-                </Link>
-                <span className="date">{convertToDate(articleInfo.data.updatedAt)}</span>
-              </div>
-              {isLogin ? <ButtonSelector articleInfo={articleInfo.data} /> : <></>}
-            </div>
-          </div>
-        </div>
-
-        <div className="container page">
-          <div className="row article-content">
-            <div className="col-md-12">
-              <ReactMarkdown children={articleInfo.data.body} remarkPlugins={[remarkGfm]}></ReactMarkdown>
-            </div>
-          </div>
-          <div>
-            {articleInfo.data.tagList.map((tag: string) => (
-              <li key={tag} className="tag-default tag-pill tag-outline">
-                {tag}
-              </li>
-            ))}
-          </div>
-          <hr />
-
-          <div className="article-actions">
-            <div className="article-meta">
-              <Link to={`/profile/${articleInfo.data.author.username}`} state={articleInfo.data.author.username}>
-                <img src={articleInfo.data.author.image} alt="profile" />
-              </Link>
-              <div className="info">
-                <Link
-                  to={`/profile/${articleInfo.data.author.username}`}
-                  state={articleInfo.data.author.username}
-                  className="author"
-                >
-                  {articleInfo.data.author.username}
-                </Link>
-                <span className="date">{convertToDate(articleInfo.data.updatedAt)}</span>
-              </div>
-              {isLogin ? <ButtonSelector articleInfo={articleInfo.data} /> : <></>}
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-12 col-md-8 offset-md-2">
-              {isLogin ? (
-                <Comment comments={commentsInfo.data} slug={articleInfo.data.slug} />
-              ) : (
-                <p>
-                  <Link to={routerMeta.SignInPage.path}>Sign in</Link>
-                  &nbsp;or&nbsp;
-                  <Link to={routerMeta.SignUpPage.path}>Sign up</Link>
-                  &nbsp;to add comments on this article.
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+        </Container>
+      </Box>
     </>
 
   );
