@@ -5,6 +5,10 @@ import { useGetUserQuery } from '@/queries/user.query';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '@/contexts/UserContextProvider';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 const SettingPage = () => {
   const navigate = useNavigate();
@@ -18,20 +22,24 @@ const SettingPage = () => {
   const { data } = useGetUserQuery();
 
   return (
-    <div className="settings-page">
-      <div className="container page">
-        <div className="row">
-          <div className="col-md-6 offset-md-3 col-xs-12">
-            <h1 className="text-xs-center">Your Settings</h1>
-            <SettingForm data={data} />
-            <hr />
-            <button type="button" className="btn btn-outline-danger" onClick={onLogout}>
-              Or click here to logout.
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Container component="main" maxWidth="sm">
+      <Box
+        sx={{
+          marginTop: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Typography component="h1" variant="h4">
+          Settings
+        </Typography>
+        <SettingForm data={data} />
+        <Button variant="outlined" onClick={onLogout} size="small" color="error">
+          click here to logout.
+        </Button>
+      </Box>
+    </Container>
   );
 };
 

@@ -19,8 +19,7 @@ alias RealworldPhoenix.Accounts
     email: "venkat@example.com",
     username: "venkat",
     password: "Mum130brad898"
-  }
-  |> Accounts.create_user()
+  }  |> Accounts.create_user()
 
 categories = ~w(business entertainment general health science sports technology)
 
@@ -29,7 +28,7 @@ categories
   1..5
   |> Enum.map(fn page ->
     newsapi =
-      "https://newsapi.org/v2/top-headlines?apiKey=726b4e0789a84a9683bb4b51531ad504&country=us&category=#{cat}&page=#{page}"
+      "https://newsapi.org/v2/top-headlines?apiKey=93f988d7f8c646cdb46525a25e0648d1&country=us&category=#{cat}&page=#{page}"
 
     case HTTPoison.get(newsapi) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -46,8 +45,8 @@ categories
                 title: article["title"],
                 description: article["description"],
                 body: article["content"],
-                tags: [article["source"]["name"]],
-                tagList: [article["source"]["name"]],
+                # tags: %{"0" => article["source"]["name"]},
+                tagList: %{"0" => article["source"]["name"]},
                 image: article["url"],
                 photo_urls: [article["urlToImage"]],
                 favoritesCount: 0,

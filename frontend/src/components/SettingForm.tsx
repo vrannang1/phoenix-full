@@ -6,6 +6,28 @@ import { putUser } from '@/repositories/users/usersRepository';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
+
 interface ISettingFormProps {
   data: { [key: string]: string | number };
 }
@@ -53,70 +75,73 @@ const SettingForm = ({ data }: ISettingFormProps) => {
 
   return (
     <>
-      <ul className="error-messages">
-        {error.password && <li>password {error.password}</li>}
-      </ul>
-      <form onSubmit={onUpdateSetting}>
-        <fieldset>
-          <fieldset className="form-group">
-            <input
-              className="form-control"
-              type="file"
-              placeholder="URL of profile picture"
-              name="photoUrl"
-              accept="image/*"
-              // value={userData.image}
-              onChange={onChangeUserData}
-            />
-            <img src={userData.image} width="80" height="80" alt={userData.username} />
-          </fieldset>
-          <fieldset className="form-group">
-            <input
-              className="form-control form-control-lg"
-              type="text"
-              placeholder="Your Name"
-              name="username"
-              value={userData.username}
-              onChange={onChangeUserData}
-            />
-          </fieldset>
-          <fieldset className="form-group">
-            <textarea
-              className="form-control form-control-lg"
-              rows={8}
-              placeholder="Short bio about you"
-              name="bio"
-              value={userData.bio || ''}
-              onChange={onChangeUserData}
-            ></textarea>
-          </fieldset>
-          <fieldset className="form-group">
-            <input
-              className="form-control form-control-lg"
-              type="text"
-              placeholder="Email"
-              name="email"
-              value={userData.email}
-              onChange={onChangeUserData}
-            />
-          </fieldset>
-          <fieldset className="form-group">
-            <input
-              className="form-control form-control-lg"
-              type="password"
-              placeholder="Password"
-              autoComplete="off"
-              name="password"
-              value={userData.password}
-              onChange={onChangeUserData}
-            />
-            <small className="text-muted">Password is required to update Profile.</small>
-          </fieldset>
-          <button type="submit" className="btn btn-lg btn-primary pull-xs-right" disabled={!isFormValid()}>
-            Update Settings
-          </button>
-        </fieldset>
-      </form>
+      <Box component="form" onSubmit={onUpdateSetting} noValidate sx={{ mt: 1 }}>
+        <Grid container alignItems="center" spacing={0.5}>
+          <Grid item>
+            <Avatar alt="Avatar" src={userData.image} sx={{ width: 48, height: 48 }} />
+          </Grid>
+          <Grid item>
+            <Button
+              component="label"
+              size="small"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload file
+              <VisuallyHiddenInput type="file" name="photoUrl" accept="image/*" onChange={onChangeUserData} />
+            </Button>
+          </Grid>
+        </Grid>
+        <TextField
+          fullWidth
+          size="small"
+          margin="normal"
+          variant="outlined"
+          placeholder="Username"
+          name="username"
+          value={userData.username}
+          onChange={onChangeUserData}
+        />
+        <TextField
+          fullWidth
+          size="small"
+          type="email"
+          margin="normal"
+          variant="outlined"
+          placeholder="email"
+          name="email"
+          value={userData.email}
+          onChange={onChangeUserData}
+        />
+        <TextField
+          fullWidth
+          size="small"
+          margin="normal"
+          variant="outlined"
+          multiline
+          rows={6}
+          placeholder="A short bio"
+          name="bio"
+          value={userData.bio || ''}
+          onChange={onChangeUserData}
+        />
+        <TextField
+          fullWidth
+          type="password"
+          size="small"
+          margin="normal"
+          variant="outlined"
+          placeholder="Password"
+          name="password"
+          value={userData.password}
+          onChange={onChangeUserData}
+          error={error.password ? true : false}
+          helperText={error.password ? "Password " + error.password : "* Password is required to update settings"}
+        />
+        <Button type="submit" variant="contained" disabled={!isFormValid()}>Update Settings</Button>
+      </Box>
     </>
   );
 };

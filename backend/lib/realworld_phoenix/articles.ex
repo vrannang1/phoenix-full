@@ -51,7 +51,7 @@ defmodule RealworldPhoenix.Articles do
     end)
     |> List.flatten()
     |> Enum.reduce(%{}, &Map.merge(&2, %{&1.name => (&2[&1.name] || 0) + &1.count}))
-    |> Enum.map(fn {key, value} -> key end)
+    |> Enum.map(fn {key, _value} -> key end)
     # |> Enum.sort_by(& &1.articles, :desc)
     |> Enum.take(20)
   end
@@ -74,10 +74,8 @@ defmodule RealworldPhoenix.Articles do
   def article_where(query, []), do: query
 
   def article_where(query, [{:tag, tag} | rest]) do
-    query
-    |> join(:left, [a], at in assoc(a, :tagList), as: :tags)
-    |> where([tags: tags], tags.name == ^tag)
-    |> article_where(rest)
+    from q in query,
+    where: fragment("? = ANY(?)", ^tag, q.tags)
   end
 
   def article_where(query, [{:author, author_name} | rest]) do
@@ -174,7 +172,7 @@ defmodule RealworldPhoenix.Articles do
   """
   def update_article(%Article{} = article, attrs) do
     article
-    |> Repo.preload(:tagList)
+    # |> Repo.preload(:tagList)
     |> Article.changeset(attrs)
     |> Repo.update()
   end

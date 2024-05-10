@@ -25,10 +25,10 @@ const Profile = ({ profile }: IProfileProps) => {
           <Grid item xs={9}>
             <Grid container alignItems="center" spacing={2}>
               <Grid item>
-                <Avatar alt="Avatar" src={profile.image} sx={{ width: 100, height: 100 }}/>
+                <Avatar alt="Avatar" src={profile.image} sx={{ width: 60, height: 60 }}/>
               </Grid>
               <Grid item>
-                <Typography variant="h3" sx={{ textTransform: 'capitalize' }}>{profile.username}</Typography>
+                <Typography variant="h4" sx={{ textTransform: 'capitalize' }}>{profile.username}</Typography>
                 <Typography variant="body1">
                   {profile.bio}
                 </Typography>

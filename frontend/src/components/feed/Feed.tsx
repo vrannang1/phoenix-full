@@ -84,7 +84,14 @@ const Feed = ({ article }: IFeedProps) => {
           <Typography style={{ textDecoration: "none", boxShadow: "none" }} gutterBottom variant="h5" component={Link} to={`/article/${article.slug}`} state={article.slug}>
             {article.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary"
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: '2',
+              WebkitBoxOrient: 'vertical',
+            }}>
             {article.body}
           </Typography>
         </CardContent>

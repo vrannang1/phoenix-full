@@ -30,9 +30,6 @@ defmodule RealworldPhoenix.Articles.Article do
 
   @doc false
   def changeset(article, attrs) do
-
-    IO.inspect attrs
-
     article
     |> cast(attrs, [:title, :description, :uuid, :tags, :body, :author_id])
     |> check_uuid
@@ -58,7 +55,11 @@ defmodule RealworldPhoenix.Articles.Article do
     title |> String.downcase() |> String.replace(~r/[^\w-]+/u, "-")
   end
 
-  defp parse_tags(changeset, params) do
+  def parse_tags(changeset, params) do
+
+    IO.inspect changeset, label: "changeset"
+    IO.inspect params, label: "Params"
+
     tags = (params["tagList"] || params[:tagList] || [])
     |> Enum.map( fn {key, value} -> value end)
     put_change(changeset, :tags, tags)

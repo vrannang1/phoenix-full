@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useState } from 'react';
 // import getLPTheme from '@/theme';
+import './Layout.css';
 
 const Layout = () => {
   const [mode, setMode] = useState<PaletteMode>('light');
@@ -16,14 +17,16 @@ const Layout = () => {
   // const LPtheme = createTheme(getLPTheme(mode));
 
   return (
-    <>
+    <div id="page-container">
       <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
-      <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
-      <Outlet />
-      <Footer />
+        <CssBaseline />
+        <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
+        <div id="content-wrap">
+          <Outlet />
+        </div>
+        <Footer />
       </ThemeProvider>
-    </>
+    </div>
   );
 };
 

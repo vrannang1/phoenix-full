@@ -22,10 +22,21 @@ defmodule RealworldPhoenixWeb.FallbackController do
     |> render(:"404")
   end
 
+  # This clause is an example of how to handle resources that cannot be found.
+  def call(conn, {:error, error}) do
+
+    IO.inspect error
+
+    conn
+    |> put_status(error)
+    |> put_view(RealworldPhoenixWeb.ErrorView)
+    |> render(:"404")
+  end
+
   def call(conn, _) do
     conn
     |> put_status(500)
     |> put_view(RealworldPhoenixWeb.ErrorView)
-    |> render(:"404")
+    |> render(:"500")
   end
 end
