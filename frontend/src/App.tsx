@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <UserContextProvider>
-        <Router />
+          <Router />
       </UserContextProvider>
     </div>
   );

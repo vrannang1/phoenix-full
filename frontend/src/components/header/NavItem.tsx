@@ -1,5 +1,7 @@
 import { IRouterMeta } from '@/lib/routerMeta';
 import { NavLink } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import MenuItem from '@mui/material/MenuItem';
 
 interface INavItemProps {
   menu: IRouterMeta;
@@ -7,11 +9,15 @@ interface INavItemProps {
 
 const NavItem = ({ menu }: INavItemProps) => {
   return (
-    <li key={menu.path} className="nav-item">
-      <NavLink to={menu.path} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-        <i className={menu.icon} /> {menu.name}
-      </NavLink>
-    </li>
+    <MenuItem
+      sx={{ py: '6px', px: '12px' }}
+      component={NavLink} to={menu.path}
+    >
+      <Typography variant="body2" color="text.primary" >
+        {menu.name}
+      </Typography>
+    </MenuItem>
+
   );
 };
 

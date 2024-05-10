@@ -20,7 +20,7 @@ defmodule RealworldPhoenix.Articles do
     article_or_articles
     |> Repo.preload(:author)
     |> Repo.preload(:favorites)
-    |> Repo.preload(:tagList)
+    # |> Repo.preload(:tagList)
   end
 
   @doc """
@@ -51,8 +51,8 @@ defmodule RealworldPhoenix.Articles do
     end)
     |> List.flatten()
     |> Enum.reduce(%{}, &Map.merge(&2, %{&1.name => (&2[&1.name] || 0) + &1.count}))
-    |> Enum.map(fn {key, value} -> %{name: key, articles: value} end)
-    |> Enum.sort_by(& &1.articles, :desc)
+    |> Enum.map(fn {key, value} -> key end)
+    # |> Enum.sort_by(& &1.articles, :desc)
     |> Enum.take(20)
   end
 

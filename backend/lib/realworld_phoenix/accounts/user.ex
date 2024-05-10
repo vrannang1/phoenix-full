@@ -33,6 +33,7 @@ defmodule RealworldPhoenix.Accounts.User do
     |> validate_required([:email, :username, :password])
     |> validate_format(:email, ~r/^^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$/, message: "must have no spaces, @ sign and 2 or 3 characters after period(.)")
     |> validate_length(:email, max: 160, message: "cannot be more than 160 characters")
+    |> unique_constraint(:username, name: :users_username_index)
     |> unique_constraint(:email, name: :users_email_index)
     |> put_pass_hash()
   end

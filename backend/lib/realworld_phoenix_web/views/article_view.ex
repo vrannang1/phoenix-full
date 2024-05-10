@@ -21,7 +21,7 @@ defmodule RealworldPhoenixWeb.ArticleView do
       title: article.title,
       description: article.description,
       body: article.body,
-      tagList: render_many(article.tagList, TagView, "tagList.json"),
+      tagList: render_many(article.tags, TagView, "tags.json"),
       favoritesCount: article.favorites |> Enum.count(),
       favorited: article.favorited,
       createdAt:

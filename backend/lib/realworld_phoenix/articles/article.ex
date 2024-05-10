@@ -23,20 +23,28 @@ defmodule RealworldPhoenix.Articles.Article do
     has_many :comments, Comment
     has_many :favorites, Favorite
 
-    many_to_many :tagList, Tag, join_through: ArticleTag, on_replace: :delete
+    # many_to_many :tagList, Tag, join_through: ArticleTag, on_replace: :delete
 
     timestamps(type: :utc_datetime_usec)
   end
 
   @doc false
   def changeset(article, attrs) do
+
+    IO.inspect attrs
+
     article
     |> cast(attrs, [:title, :description, :uuid, :tags, :body, :author_id])
     |> check_uuid
     |> cast_assoc(:author)
-    |> put_assoc(:tagList, parse_tags(attrs))
+    # |> put_assoc(:tagList, parse_tags(attrs))
+    |> parse_tags(attrs)
     |> validate_required([:title, :description, :body])
     |> title_to_slugify()
+  end
+
+  defp add_tags(article) do
+    IO.inspect article
   end
 
   def title_to_slugify(changeset) do
@@ -50,15 +58,16 @@ defmodule RealworldPhoenix.Articles.Article do
     title |> String.downcase() |> String.replace(~r/[^\w-]+/u, "-")
   end
 
-  defp parse_tags(params) do
-    (params["tagList"] || params[:tagList] || [])
-    |> Enum.map(&get_or_insert_tag/1)
+  defp parse_tags(changeset, params) do
+    tags = (params["tagList"] || params[:tagList] || [])
+    |> Enum.map( fn {key, value} -> value end)
+    put_change(changeset, :tags, tags)
   end
 
-  defp get_or_insert_tag(name) do
-    Repo.get_by(Tag, name: name) ||
-      Repo.insert!(%Tag{name: name})
-  end
+  # defp get_or_insert_tag(name) do
+  #   Repo.get_by(Tag, name: name) ||
+  #     Repo.insert!(%Tag{name: name})
+  # end
 
   defp check_uuid(changeset) do
     if get_field(changeset, :uuid) == nil do

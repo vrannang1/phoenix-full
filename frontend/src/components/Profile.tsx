@@ -1,6 +1,11 @@
 import { UserContext } from '@/contexts/UserContextProvider';
 import { useContext } from 'react';
 import FollowButton from './profile/FollowButton';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
 
 interface IProfileProps {
   profile: {
@@ -14,18 +19,28 @@ interface IProfileProps {
 const Profile = ({ profile }: IProfileProps) => {
   const { isLogin } = useContext(UserContext);
   return (
-    <div className="user-info">
-      <div className="container">
-        <div className="row">
-          <div className="col-xs-12 col-md-10 offset-md-1">
-            <img alt="profile" src={profile.image} className="user-img" />
-            <h4>{profile.username}</h4>
-            <p>{profile.bio}</p>
+    <Box sx={{ height: 150, color: '#fff', bgcolor: '#333', padding: '2rem', marginBottom: '2rem' }}>
+      <Container maxWidth="lg">
+        <Grid container alignItems="center" spacing={2}>
+          <Grid item xs={9}>
+            <Grid container alignItems="center" spacing={2}>
+              <Grid item>
+                <Avatar alt="Avatar" src={profile.image} sx={{ width: 100, height: 100 }}/>
+              </Grid>
+              <Grid item>
+                <Typography variant="h3" sx={{ textTransform: 'capitalize' }}>{profile.username}</Typography>
+                <Typography variant="body1">
+                  {profile.bio}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={3} container justifyContent="flex-end">
             {isLogin ? <FollowButton profileName={profile.username} isFollow={profile.following} /> : <></>}
-          </div>
-        </div>
-      </div>
-    </div>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 };
 

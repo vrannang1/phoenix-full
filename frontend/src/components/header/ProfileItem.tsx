@@ -1,20 +1,19 @@
 import { NavLink } from 'react-router-dom';
 import { useGetUserQuery } from '@/queries/user.query';
-
+import MenuItem from '@mui/material/MenuItem';
+import Avatar from '@mui/material/Avatar';
 const ProfileItem = () => {
   const { data } = useGetUserQuery();
 
   return (
-    <li className="nav-item">
-      <NavLink
+    <>
+      <MenuItem
+        component={NavLink}
         to={`profile/${data.username}`}
-        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-        state={data.username}
-      >
-        <img className="user-pic" src={data.image} alt="profile" />
-        {data.username}
-      </NavLink>
-    </li>
+        state={data.username}>
+        <Avatar alt={data.username} src={data.image} sx={{ width: 24, height: 24 }} />
+      </MenuItem>
+    </>
   );
 };
 
