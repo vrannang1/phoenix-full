@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import ButtonSelector from '@/components/article/ButtonSelector';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { UserContext } from '@/contexts/UserContextProvider';
 import Comment from '@/components/article/Comment';
 import routerMeta from '@/lib/routerMeta';
@@ -11,8 +11,14 @@ import convertToDate from '@/lib/utils/convertToDate';
 
 const ArticlePage = () => {
   const { state } = useLocation();
-  const [articleInfo, commentsInfo] = useGetArticleQueries(state);
+  const [ articleInfo, commentsInfo ] = useGetArticleQueries(state);
   const { isLogin } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log("state is ", state);
+    console.log(articleInfo, commentsInfo);
+  })
+
 
   return (
     <div className="article-page">

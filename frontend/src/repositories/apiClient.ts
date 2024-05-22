@@ -31,8 +31,6 @@ apiClient.interceptors.request.use((request) => {
 
 apiClient.interceptors.response.use(
   (response) => {
-
-    console.log("Resoonse is ", response);
     const { method, url } = response.config;
     const { status } = response;
 

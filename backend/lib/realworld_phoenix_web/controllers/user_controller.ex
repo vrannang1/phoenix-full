@@ -33,7 +33,7 @@ defmodule RealworldPhoenixWeb.UserController do
     with {:ok, %User{} = user} <- Accounts.update_user(user, params) do
       {:ok, token, _} = encode_and_sign(user)
       render(conn, "show.json", user: user, token: token)
-    else 
+    else
       {:error, changeset} ->
         render(conn, "show.json", error: changeset)
     end
@@ -47,6 +47,7 @@ defmodule RealworldPhoenixWeb.UserController do
 
       {:error, msg} ->
         render(conn, "login.json", error: msg)
+        |> halt()
     end
   end
 end
