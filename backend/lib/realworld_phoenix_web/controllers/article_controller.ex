@@ -4,7 +4,7 @@ defmodule RealworldPhoenixWeb.ArticleController do
   alias RealworldPhoenix.Articles
   alias RealworldPhoenix.Articles.Article
 
-  action_fallback RealworldPhoenixWeb.FallbackController
+  action_fallback(RealworldPhoenixWeb.FallbackController)
 
   def index(conn, params) do
     keywords = for {key, val} <- params, do: {String.to_atom(key), val}
@@ -38,10 +38,8 @@ defmodule RealworldPhoenixWeb.ArticleController do
   end
 
   def show(conn, %{"slug" => slug}) do
-    user = Guardian.Plug.current_resource(conn)
-
-    with %Article{} = article <-
-           Articles.get_article_by_slug(slug, user),
+    with user <- Guardian.Plug.current_resource(conn),
+         %Article{} = article <- Articles.get_article_by_slug(slug, user),
          article <- article |> Articles.article_preload() do
       render(conn, "show.json", article: article)
     end

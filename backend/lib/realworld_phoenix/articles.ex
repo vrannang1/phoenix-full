@@ -73,7 +73,7 @@ defmodule RealworldPhoenix.Articles do
 
   def article_where(query, []), do: query
 
-  def article_where(query, [{:tag, tag} | rest]) do
+  def article_where(query, [{:tag, tag} | _rest]) do
     from q in query,
     where: fragment("? = ANY(?)", ^tag, q.tags)
   end

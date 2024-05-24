@@ -2,12 +2,9 @@ defmodule RealworldPhoenix.Articles.Article do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias RealworldPhoenix.Repo
   alias RealworldPhoenix.Accounts.User
   alias RealworldPhoenix.Articles.Comment
   alias RealworldPhoenix.Articles.Favorite
-  alias RealworldPhoenix.Articles.Tag
-  alias RealworldPhoenix.Articles.ArticleTag
 
   schema "articles" do
     field :body, :string
@@ -40,10 +37,6 @@ defmodule RealworldPhoenix.Articles.Article do
     |> title_to_slugify()
   end
 
-  defp add_tags(article) do
-    IO.inspect article
-  end
-
   def title_to_slugify(changeset) do
     case get_change(changeset, :title) do
       nil -> changeset
@@ -56,12 +49,8 @@ defmodule RealworldPhoenix.Articles.Article do
   end
 
   def parse_tags(changeset, params) do
-
-    IO.inspect changeset, label: "changeset"
-    IO.inspect params, label: "Params"
-
     tags = (params["tagList"] || params[:tagList] || [])
-    |> Enum.map( fn {key, value} -> value end)
+    |> Enum.map( fn {_key, value} -> value end)
     put_change(changeset, :tags, tags)
   end
 

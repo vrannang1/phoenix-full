@@ -22,7 +22,6 @@ const ArticlePage = () => {
 
   return (
     <>
-
       <Box sx={{ height: 150, color: '#fff', bgcolor: '#333', padding: '2rem', marginBottom: '2rem' }}>
         <Container maxWidth="lg">
           <Typography variant="h5">
