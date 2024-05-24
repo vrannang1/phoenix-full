@@ -1,5 +1,5 @@
 import { useGetArticleQueries } from '@/queries/articles.query';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import ButtonSelector from '@/components/article/ButtonSelector';
@@ -15,8 +15,30 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 
+
 const ArticlePage = () => {
   const { state } = useLocation();
+
+  const navigate = useNavigate();
+
+  if (!state) return <div className="article-page">
+    <div className="banner">
+      <div className="container">
+        <h1>Article not found.</h1>
+        <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={() => {
+              navigate('/', { replace: true });
+              window.location.reload();
+            }}
+          >
+            Go Home
+          </button>
+      </div>
+    </div>
+  </div>;
+
   const [articleInfo, commentsInfo] = useGetArticleQueries(state);
   const { isLogin } = useContext(UserContext);
 
