@@ -26,15 +26,15 @@ const ArticlePage = () => {
       <div className="container">
         <h1>Article not found.</h1>
         <button
-            type="button"
-            className="btn btn-outline-primary"
-            onClick={() => {
-              navigate('/', { replace: true });
-              window.location.reload();
-            }}
-          >
-            Go Home
-          </button>
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={() => {
+            navigate('/', { replace: true });
+            window.location.reload();
+          }}
+        >
+          Go Home
+        </button>
       </div>
     </div>
   </div>;
