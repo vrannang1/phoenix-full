@@ -63,8 +63,10 @@ const Feed = ({ article }: IFeedProps) => {
   // const styles = { display: "flex", alignItems: "center" };
 
   return (
-    <div style={{ padding: 20 }} >
-      <Card sx={{ maxWidth: 900 }}>
+    <div style={{ padding: 10 }} >
+      <Card sx={{ maxWidth: 900, ':hover': {
+      boxShadow: 20, // theme.shadows[20]
+    }, }}>
         <CardHeader
           avatar={
             <Avatar src={article.author.image} component={Link} to={`/profile/${article.author.username}`} state={article.author.username} alt={article.author.image} />

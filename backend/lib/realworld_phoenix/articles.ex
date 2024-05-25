@@ -53,7 +53,7 @@ defmodule RealworldPhoenix.Articles do
     |> Enum.reduce(%{}, &Map.merge(&2, %{&1.name => (&2[&1.name] || 0) + &1.count}))
     |> Enum.map(fn {key, _value} -> key end)
     # |> Enum.sort_by(& &1.articles, :desc)
-    |> Enum.take(20)
+    |> Enum.take(10)
   end
 
   def list_articles_feed(user, params \\ []) do

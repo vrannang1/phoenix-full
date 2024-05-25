@@ -18,6 +18,7 @@ interface IFeedListProps {
 const FeedList = ({ articlesInfo, toUrl, page, setPage }: IFeedListProps) => {
   const { articles, articlesCount } = articlesInfo;
 
+
   return (
     <>
       {articles.length !== 0 ? (
@@ -31,6 +32,7 @@ const FeedList = ({ articlesInfo, toUrl, page, setPage }: IFeedListProps) => {
       )}
       <nav>
         <ul className="pagination">
+
           {articlesCount > UNIT_PER_PAGE &&
             generateOneToNArray(Math.floor(articlesCount / UNIT_PER_PAGE)).map((value) => (
               <li

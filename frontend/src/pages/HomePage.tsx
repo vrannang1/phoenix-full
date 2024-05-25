@@ -9,7 +9,15 @@ import Grid from '@mui/material/Grid';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Chip from '@mui/material/Chip';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import HomeIcon from '@mui/icons-material/Home';
+import TagIcon from '@mui/icons-material/Tag';
 
 const HomePage = () => {
   const { isLogin } = useContext(UserContext);
@@ -26,32 +34,52 @@ const HomePage = () => {
 
   return (
     <>
-      <Box sx={{ height: 150, color: '#fff', bgcolor: '#333', padding: '2rem', marginBottom: '2rem' }}>
+      {/* <Box sx={{ height: 150, color: '#fff', bgcolor: '#333', padding: '2rem', marginBottom: '2rem' }}>
         <Container maxWidth="lg">
-          <Typography variant="h3">
-            conduit
-          </Typography>
-          <Typography variant="body1">
-            A place to share your knowledge
-          </Typography>
+          <Typography variant="h3">conduit</Typography>
+          <Typography variant="body1">A place to share your knowledge</Typography>
         </Container>
-      </Box>
-      <Box sx={{ flexGrow: 1 }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={6}>
-            <Grid item xs={9}>
+      </Box> */}
+      <Box sx={{ flexGrow: 1 }} style={{ marginTop: '20px' }}>
+        <Container maxWidth="xl">
+          <Grid container spacing={3}>
+            <Grid item xs={2}>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} component="nav">
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                  </ListItemButton>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <TagIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Tags" />
+                  </ListItemButton>
+                </List>
+              </Box>
+            </Grid>
+
+            <Grid item xs={7}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange}>
                   <Tab label="Global Feed" />
-                  {isLogin && (<Tab label="Your Feed" />)}
+                  {isLogin && <Tab label="Your Feed" />}
                 </Tabs>
                 <FeedList articlesInfo={articlesInfo.data} toUrl={'/'} page={page} setPage={setPage} />
               </Box>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Box>
+                Popular Tags
                 {tagsInfo.data.map((tag: string) => (
-                  <Chip component={Link} to="/" key={tag} label={tag} onClick={() => { setSelectedTag(tag) }} />
+                  <List key={tag} dense={true}>
+                    <ListItem disablePadding>
+                      <ListItemText primary={tag} />
+                    </ListItem>
+                  </List>
                 ))}
               </Box>
             </Grid>

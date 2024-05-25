@@ -7,6 +7,7 @@ defmodule RealworldPhoenix.Repo.Migrations.CreateArticles do
       add :title, :string
       add :description, :text
       add :body, :text
+      add :image, :string
       add :tags, {:array, :string}
       add :favoritesCount, :integer
       add :author_id, references(:users)

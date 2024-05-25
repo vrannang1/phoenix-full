@@ -31,6 +31,14 @@ const ArticlePage = () => {
           <Typography variant="body1">
             {articleInfo.data.description}
           </Typography>
+          {console.log(articleInfo.data)}
+          {articleInfo.data.tagList.map( (tag: any) => {
+            return (
+              <>
+                {tag}
+              </>
+            )
+          })}
           <Grid container alignItems="center" spacing={2}>
             <Grid item xs={9}>
               <Grid container alignItems="center" spacing={0.5}>
