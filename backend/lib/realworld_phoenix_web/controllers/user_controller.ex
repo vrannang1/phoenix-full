@@ -9,6 +9,9 @@ defmodule RealworldPhoenixWeb.UserController do
   action_fallback(RealworldPhoenixWeb.FallbackController)
 
   def create(conn, %{"user" => user_params}) do
+
+    IO.inspect user_params
+
     with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
       {:ok, token, _} = encode_and_sign(user)
 
@@ -33,7 +36,7 @@ defmodule RealworldPhoenixWeb.UserController do
     with {:ok, %User{} = user} <- Accounts.update_user(user, params) do
       {:ok, token, _} = encode_and_sign(user)
       render(conn, "show.json", user: user, token: token)
-    else 
+    else
       {:error, changeset} ->
         render(conn, "show.json", error: changeset)
     end

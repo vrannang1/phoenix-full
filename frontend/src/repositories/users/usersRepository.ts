@@ -14,13 +14,14 @@ export const postLogin = async ({ email, password }: postLoginParam) => {
   });
 };
 
-export const postRegister = async ({ username, email, password }: postRegisterParam) => {
+export const postRegister = async ({ firstName, lastName, email, password }: postRegisterParam) => {
   return await apiClient({
     method: 'post',
     url: `/users`,
     data: {
       user: {
-        username,
+        firstName,
+        lastName,
         email,
         password,
       },

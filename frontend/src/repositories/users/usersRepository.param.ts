@@ -4,15 +4,22 @@ export interface postLoginParam {
 }
 
 export interface postRegisterParam {
-  username: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }
 
 export interface putUserParam {
   email: string;
+  firstName: string;
+  lastName: string;
   username: string;
   bio: string;
+  url: string;
+  location: string;
+  education: string;
+  work: string;
   image: string;
   password: string;
 }

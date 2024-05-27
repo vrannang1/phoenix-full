@@ -3,9 +3,15 @@ defmodule RealworldPhoenix.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
+      add :firstName, :string
+      add :lastName, :string
       add :email, :string
       add :username, :string
       add :bio, :string
+      add :url, :string
+      add :location, :string
+      add :education, :string
+      add :work, :string
       add :image, :string
       add :hashed_password, :string
       add :uuid, :string

@@ -24,14 +24,27 @@ const Profile = ({ profile }: IProfileProps) => {
   const { isLogin } = useContext(UserContext);
   return (
     <>
+      <Container component="main" maxWidth="sm">
+        <Box
+          sx={{
+            marginTop: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar alt="Avatar" src={profile.image} sx={{ width: 48, height: 48 }} />
+          <Typography variant="h5" marginTop={2}>{profile.username}</Typography>
+        </Box>
+      </Container>
       <Box margin={10}>
         <Container maxWidth="lg">
-          <Card sx={{ maxWidth: 900, alignContent: "center", justifyContent: "center"}} >
+          <Card sx={{ maxWidth: 900, alignContent: "center", justifyContent: "center" }} >
             <CardHeader avatar={
-            <Avatar src={profile.image} />
-          }>
+              <Avatar src={profile.image} />
+            }>
 
-          </CardHeader>
+            </CardHeader>
           </Card>
         </Container>
       </Box>

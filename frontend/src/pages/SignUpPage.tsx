@@ -10,6 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -19,10 +21,11 @@ import Container from '@mui/material/Container';
 const SignUpPage = () => {
   const [error, setError] = useState({
     email: '',
-    username: '',
+    firstName: '',
+    lastName: '',
     password: '',
   });
-  const [signUpdata, onChangeSignUpData] = useInputs({ username: '', email: '', password: '' });
+  const [signUpdata, onChangeSignUpData] = useInputs({ firstName: '', lastName: '', email: '', password: '' });
   const { setIsLogin } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -35,7 +38,8 @@ const SignUpPage = () => {
           setError({
             email: res.data.errors.email,
             password: res.data.errors.password,
-            username: res.data.errors.username,
+            firstName: res.data.errors.firstName,
+            lastName: res.data.errors.lastName
           });
         } else {
           token.setToken(ACCESS_TOKEN_KEY, res.data.user.token);
@@ -47,7 +51,8 @@ const SignUpPage = () => {
         setError({
           email: err.response.data.errors.email,
           password: err.response.data.errors.password,
-          username: err.response.data.errors.username,
+          firstName: err.response.data.errors.firstName,
+          lastName: err.response.data.errors.lastName,
         });
       });
   };
@@ -69,50 +74,79 @@ const SignUpPage = () => {
           Sign in
         </Typography>
         <Box component="form" onSubmit={onRegister} noValidate sx={{ mt: 1 }}>
-        <TextField
-            fullWidth
-            size="small"
-            margin="normal"
-            variant="outlined"
-            placeholder="Unique Username"
-            name="username"
-            value={signUpdata.username}
-            onChange={onChangeSignUpData}
-            error={error.username ? true : false}
-            helperText={error.username ? error.username : ""}
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                size="small"
+                margin="normal"
+                variant="outlined"
+                placeholder="Your firstName"
+                name="firstName"
+                value={signUpdata.firstName}
+                onChange={onChangeSignUpData}
+                error={error.firstName ? true : false}
+                helperText={error.firstName ? error.firstName : ""}
 
-          />
-          <TextField
-            fullWidth
-            size="small"
-            margin="normal"
-            variant="outlined"
-            placeholder="Your email address"
-            name="email"
-            value={signUpdata.email}
-            onChange={onChangeSignUpData}
-            error={error.email ? true : false}
-            helperText={error.email ? error.email : ""}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                size="small"
+                margin="normal"
+                variant="outlined"
+                placeholder="Your lastName"
+                name="lastName"
+                value={signUpdata.lastName}
+                onChange={onChangeSignUpData}
+                error={error.lastName ? true : false}
+                helperText={error.lastName ? error.lastName : ""}
 
-          />
-          <TextField
-            fullWidth
-            size="small"
-            margin="normal"
-            variant="outlined"
-            type="password"
-            placeholder="Your Password"
-            name="password"
-            value={signUpdata.password}
-            onChange={onChangeSignUpData}
-            error={error.password ? true : false}
-            helperText={error.password ? error.password : ""}
-          />
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                size="small"
+                margin="normal"
+                variant="outlined"
+                placeholder="Your email address"
+                name="email"
+                value={signUpdata.email}
+                onChange={onChangeSignUpData}
+                error={error.email ? true : false}
+                helperText={error.email ? error.email : ""}
+
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                size="small"
+                margin="normal"
+                variant="outlined"
+                type="password"
+                placeholder="Your Password"
+                name="password"
+                value={signUpdata.password}
+                onChange={onChangeSignUpData}
+                error={error.password ? true : false}
+                helperText={error.password ? error.password : ""}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                label="I agree to the terms and conditions."
+              />
+            </Grid>
+          </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 2, mb: 2 }}
           >
             Sign In
           </Button>

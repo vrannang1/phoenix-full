@@ -35,7 +35,6 @@ defmodule RealworldPhoenix.Accounts do
       nil ->
         {:error, "Invalid email or password"}
       user ->
-        IO.inspect user
         if Bcrypt.verify_pass(password, user.hashed_password) do
           {:ok, user}
         else
