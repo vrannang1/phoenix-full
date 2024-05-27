@@ -25,6 +25,7 @@ defmodule RealworldPhoenix.Accounts.User do
         %Plug.Upload{} -> Map.merge(attrs, %{image: attrs[:photoUrl]})
         _ -> attrs
       end
+      |> IO.inspect
 
     user
     |> cast(attributes, [:email, :username, :bio, :uuid,  :password])

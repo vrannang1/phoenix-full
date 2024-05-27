@@ -4,19 +4,39 @@ import { useCreateArticleMutation } from '@/queries/articles.query';
 import { QUERY_ARTICLES_KEY } from '@/constants/query.constant';
 import { useNavigate } from 'react-router-dom';
 
+import { styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useState } from 'react';
 // import { ChildProcess } from 'child_process';
 
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
+
 const NewArticlePage = () => {
+  const [error, setError] = useState({
+    title: '',
+    body: '',
+    tags: [],
+  });
   const navigate = useNavigate();
   const [articleData, onChangeArticleData, setArticleData] = useInputs({
     title: '',
-    description: '',
+    photoUrl: {},
+    // description: '',
     body: '',
     tag: '',
     tagList: [],
@@ -47,24 +67,28 @@ const NewArticlePage = () => {
 
   const onPublish = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { title, description, body, tagList } = articleData;
+    const { title, photoUrl, body, tagList } = articleData;
     createArticleMutation.mutate(
-      { title, description, body, tagList },
+      { title, photoUrl, body, tagList },
       {
         onSuccess: (res) => {
           queryClient.invalidateQueries({ queryKey: [QUERY_ARTICLES_KEY] });
           const slug = res.data.article.slug;
           navigate(`/article/${slug}`, { state: slug });
         },
+        onError: (error: any) => {
+          setError({
+            title: error.response.data.errors.slug,
+            body: error.response.data.errors.body,
+            tags: error.response.data.errors.tags,
+          });
+        },
       },
     );
   };
 
-  console.log("tagList", articleData.tag, articleData.tagList);
-
   return (
     <div className="editor-page">
-
       <Container component="main" maxWidth="md">
         <Box
           sx={{
@@ -78,18 +102,24 @@ const NewArticlePage = () => {
             Create a new Post
           </Typography>
           <Box component="form" onSubmit={onPublish} noValidate sx={{ mt: 1 }}>
+            <Button component="label" size="large" role={undefined} variant="outlined" tabIndex={-1}>
+              Add a cover image
+              <VisuallyHiddenInput type="file" name="photoUrl" accept="image/*" onChange={onChangeArticleData} />
+            </Button>
+
             <TextField
               fullWidth
-              size="small"
+              size="medium"
               margin="normal"
               variant="outlined"
               placeholder="Title for your article"
               name="title"
               value={articleData.title}
               onChange={onChangeArticleData}
-
+              error={error.title ? true : false}
+              helperText={error.title ? error.title : ''}
             />
-            <TextField
+            {/* <TextField
               fullWidth
               size="small"
               margin="normal"
@@ -99,7 +129,7 @@ const NewArticlePage = () => {
               name="description"
               value={articleData.description}
               onChange={onChangeArticleData}
-            />
+            /> */}
             <TextField
               fullWidth
               size="small"
@@ -129,12 +159,7 @@ const NewArticlePage = () => {
             {articleData.tagList.map((tag: string) => (
               <Chip key={tag} label={tag} onClick={() => removeTag(tag)} />
             ))}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Publish Article
             </Button>
           </Box>

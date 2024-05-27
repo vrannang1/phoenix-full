@@ -12,7 +12,9 @@ export interface getArticleParam {
 
 export interface createArticleParam {
   title: string;
-  description: string;
+  photoUrl: object;
+  // image: string;
+  // description: string;
   body: string;
   tagList: string[];
 }
@@ -20,7 +22,8 @@ export interface createArticleParam {
 export interface updateArticleParam {
   slug: string;
   title: string;
-  description: string;
+  image: string;
+  // description: string;
   body: string;
   tagList: string[];
 }

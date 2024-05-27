@@ -63,7 +63,7 @@ const Feed = ({ article }: IFeedProps) => {
   // const styles = { display: "flex", alignItems: "center" };
 
   return (
-    <div style={{ padding: 10 }} >
+    <div style={{ padding: 5 }} >
       <Card sx={{ maxWidth: 900, ':hover': {
       boxShadow: 20, // theme.shadows[20]
     }, }}>
@@ -98,9 +98,9 @@ const Feed = ({ article }: IFeedProps) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" color="primary" component={Link} to={`/article/${article.slug}`} state={article.slug}>
+          {/* <Button size="small" color="primary" component={Link} to={`/article/${article.slug}`} state={article.slug}>
             Read more...
-          </Button>
+          </Button> */}
         </CardActions>
       </Card>
     </div>

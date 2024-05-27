@@ -28,14 +28,14 @@ export const getArticle = async ({ slug }: getArticleParam) => {
   });
 };
 
-export const createArticle = async ({ title, description, body, tagList }: createArticleParam) => {
+export const createArticle = async ({ title, photoUrl, body, tagList }: createArticleParam) => {
   return await apiClient({
     method: 'post',
     url: `/articles`,
     data: {
       article: {
         title,
-        description,
+        photoUrl,
         body,
         tagList,
       },
@@ -43,14 +43,14 @@ export const createArticle = async ({ title, description, body, tagList }: creat
   });
 };
 
-export const updateArticle = async ({ slug, title, description, body, tagList }: updateArticleParam) => {
+export const updateArticle = async ({ slug, image, title, body, tagList }: updateArticleParam) => {
   return await apiClient({
     method: 'put',
     url: `/articles/${slug}`,
     data: {
       article: {
         title,
-        description,
+        image,
         body,
         tagList,
       },

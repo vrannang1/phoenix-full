@@ -11,6 +11,7 @@ defmodule RealworldPhoenixWeb.CommentView do
   end
 
   def render("show.json", %{comment: comment}) do
+
     %{comment: render_one(comment, CommentView, "comment.json")}
   end
 

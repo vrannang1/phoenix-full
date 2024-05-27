@@ -3,12 +3,9 @@ defmodule RealworldPhoenix.Articles.Article do
   use Arc.Ecto.Schema
   import Ecto.Changeset
 
-  alias RealworldPhoenix.Repo
   alias RealworldPhoenix.Accounts.User
   alias RealworldPhoenix.Articles.Comment
   alias RealworldPhoenix.Articles.Favorite
-  alias RealworldPhoenix.Articles.Tag
-  alias RealworldPhoenix.Articles.ArticleTag
 
   schema "articles" do
     field :body, :string
@@ -36,7 +33,7 @@ defmodule RealworldPhoenix.Articles.Article do
       case attrs[:photoUrl] do
         %Plug.Upload{} -> Map.merge(attrs, %{image: attrs[:photoUrl]})
         _ -> attrs
-      end
+      end |> IO.inspect
 
     article
     |> cast(attributes, [:title, :description, :uuid, :tags, :body, :author_id])
@@ -45,12 +42,10 @@ defmodule RealworldPhoenix.Articles.Article do
     |> cast_assoc(:author)
     # |> put_assoc(:tagList, parse_tags(attrs))
     |> parse_tags(attributes)
-    |> validate_required([:title, :description, :body])
+    |> validate_required([:title, :body, :tags])
+    |> unique_constraint(:slug, name: :articles_slug_index)
     |> title_to_slugify()
-  end
-
-  defp add_tags(article) do
-    IO.inspect article
+    |> IO.inspect()
   end
 
   def title_to_slugify(changeset) do
@@ -66,7 +61,7 @@ defmodule RealworldPhoenix.Articles.Article do
 
   def parse_tags(changeset, params) do
     tags = (params["tagList"] || params[:tagList] || [])
-    |> Enum.map( fn {key, value} -> value end)
+    |> Enum.map( fn {_key, value} -> value end)
     put_change(changeset, :tags, tags)
   end
 

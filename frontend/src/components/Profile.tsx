@@ -45,9 +45,9 @@ const Profile = ({ profile }: IProfileProps) => {
               }}>
               {profile.bio}
             </Typography>
-            <Tooltip title={profile.bio}>
+            {/* <Tooltip title={profile.bio}>
               <Typography component="button" sx={{ textDecoration: 'none', textTransform: "capitalize" }}>Read more..</Typography>
-            </Tooltip>
+            </Tooltip> */}
           </Grid>
           <Grid item xs={3} container justifyContent="flex-end">
             {isLogin ? <FollowButton profileName={profile.username} isFollow={profile.following} /> : <></>}

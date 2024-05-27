@@ -18,7 +18,7 @@ const EditArticlePage = () => {
   const [articleData, onChangeArticleData, setArticleData] = useInputs({
     slug: state.slug,
     title: state.title,
-    description: state.description,
+    // description: state.description,
     body: state.body,
     tag: '',
     tagList: state.tagList,
@@ -49,9 +49,9 @@ const EditArticlePage = () => {
 
   const onUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { slug, title, description, body, tagList } = articleData;
+    const { slug, title, image, body, tagList } = articleData;
     updateArticleMutation.mutate(
-      { slug, title, description, body, tagList },
+      { slug, title, image, body, tagList },
       {
         onSuccess: (res) => {
           queryClient.invalidateQueries({ queryKey: [QUERY_ARTICLE_KEY] });

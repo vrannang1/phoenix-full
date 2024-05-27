@@ -22,23 +22,21 @@ const ArticlePage = () => {
 
   return (
     <>
-
       <Box sx={{ height: 150, color: '#fff', bgcolor: '#333', padding: '2rem', marginBottom: '2rem' }}>
         <Container maxWidth="lg">
-          <Typography variant="h5">
-            {articleInfo.data.title}
-          </Typography>
-          <Typography variant="body1">
+          <Typography variant="h5">{articleInfo.data.title}</Typography>
+          {/* <Typography variant="body1">
             {articleInfo.data.description}
-          </Typography>
-          {console.log(articleInfo.data)}
-          {articleInfo.data.tagList.map( (tag: any) => {
-            return (
-              <>
-                {tag}
-              </>
-            )
+          </Typography> */}
+          {/* {console.log(articleInfo.data)} */}
+          {articleInfo.data.tagList.map((tag: any) => {
+            return <Chip color="primary" key={tag} label={tag} />;
           })}
+        </Container>
+      </Box>
+
+      <Box sx={{ flexGrow: 1 }}>
+        <Container maxWidth="lg">
           <Grid container alignItems="center" spacing={2}>
             <Grid item xs={9}>
               <Grid container alignItems="center" spacing={0.5}>
@@ -46,9 +44,15 @@ const ArticlePage = () => {
                   <Avatar alt="Avatar" src={articleInfo.data.author.image} sx={{ width: 24, height: 24 }} />
                 </Grid>
                 <Grid item>
-                  <Typography component={Link}
-                    to={`/profile/${articleInfo.data.author.username}`} state={articleInfo.data.author.username}
-                    variant="subtitle1" color="white" sx={{ textDecoration: 'none', textTransform: "capitalize" }}>{articleInfo.data.author.username}</Typography>
+                  <Typography
+                    component={Link}
+                    to={`/profile/${articleInfo.data.author.username}`}
+                    state={articleInfo.data.author.username}
+                    variant="subtitle1"
+                    sx={{ textDecoration: 'none', textTransform: 'capitalize' }}
+                  >
+                    {articleInfo.data.author.username}
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -56,11 +60,6 @@ const ArticlePage = () => {
               {isLogin ? <ButtonSelector articleInfo={articleInfo.data} /> : <></>}
             </Grid>
           </Grid>
-        </Container>
-      </Box>
-
-      <Box sx={{ flexGrow: 1 }}>
-        <Container maxWidth="lg">
           <ReactMarkdown children={articleInfo.data.body} remarkPlugins={[remarkGfm]}></ReactMarkdown>
           {articleInfo.data.tagList.map((tag: string) => (
             <Chip key={tag} label={tag} />
@@ -79,11 +78,9 @@ const ArticlePage = () => {
               &nbsp;to add comments on this article.
             </p>
           )}
-
         </Container>
       </Box>
     </>
-
   );
 };
 

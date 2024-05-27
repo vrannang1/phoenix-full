@@ -4,7 +4,7 @@ defmodule RealworldPhoenixWeb.ArticleController do
   alias RealworldPhoenix.Articles
   alias RealworldPhoenix.Articles.Article
 
-  action_fallback RealworldPhoenixWeb.FallbackController
+  action_fallback(RealworldPhoenixWeb.FallbackController)
 
   def index(conn, params) do
     keywords = for {key, val} <- params, do: {String.to_atom(key), val}
@@ -23,9 +23,13 @@ defmodule RealworldPhoenixWeb.ArticleController do
   end
 
   def create(conn, %{"article" => article_params}) do
+    params_with_atoms =
+      for {key, val} <- article_params, into: %{}, do: {String.to_atom(key), val}
+
     with user <- Guardian.Plug.current_resource(conn),
-         article_params <- Map.put(article_params, "author_id", user.id),
-         {:ok, %Article{} = article} <- Articles.create_article(article_params) do
+         article_params <- Map.put(params_with_atoms, :author_id, user.id),
+         {:ok, article} <- Articles.create_article(article_params) do
+
       article =
         article
         |> Articles.article_preload()
