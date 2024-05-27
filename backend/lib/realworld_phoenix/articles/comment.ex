@@ -17,6 +17,8 @@ defmodule RealworldPhoenix.Articles.Comment do
   def changeset(comment, attrs) do
     comment
     |> cast(attrs, [:body, :author_id, :article_id])
+    |> cast_assoc(:author)
+    |> cast_assoc(:article)
     |> validate_required([:body, :author_id, :article_id])
   end
 end

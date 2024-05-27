@@ -63,6 +63,10 @@ const NewArticlePage = () => {
     setArticleData({ ...articleData, tagList: articleData.tagList.filter((tag: string) => tag !== target) });
   };
 
+  const isFormValid = () => {
+    return articleData.body.length > 0 && articleData.title.length > 0;
+  };
+
   const createArticleMutation = useCreateArticleMutation();
 
   const onPublish = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -78,8 +82,8 @@ const NewArticlePage = () => {
         },
         onError: (error: any) => {
           setError({
-            title: error.response.data.errors.slug,
-            body: error.response.data.errors.body,
+            title: error.response.data.errors.title[0],
+            body: error.response.data.errors.body[0],
             tags: error.response.data.errors.tags,
           });
         },
@@ -142,6 +146,8 @@ const NewArticlePage = () => {
               rows={6}
               value={articleData.body}
               onChange={onChangeArticleData}
+              error={error.body ? true : false}
+              helperText={error.body ? error.body : ''}
             />
             <TextField
               fullWidth
@@ -151,15 +157,17 @@ const NewArticlePage = () => {
               type="text"
               placeholder="Add tags for your post"
               name="tag"
+              error={articleData.tagList.length > 4}
+              helperText={articleData.tagList.length > 4 ? 'You can only add 4 tags' : ''}
               value={articleData.tag}
-              helperText="Separate tags by comma."
+              // helperText="Separate tags by comma."
               onChange={onChangeArticleData}
               onKeyDown={onEnter}
             />
             {articleData.tagList.map((tag: string) => (
               <Chip key={tag} label={tag} onClick={() => removeTag(tag)} />
             ))}
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={!isFormValid()}>
               Publish Article
             </Button>
           </Box>

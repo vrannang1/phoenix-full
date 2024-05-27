@@ -79,6 +79,7 @@ export const createComment = async ({ slug, body }: createCommentParam) => {
     data: {
       comment: {
         body,
+        slug,
       },
     },
   });

@@ -45,7 +45,6 @@ defmodule RealworldPhoenix.Articles.Article do
     |> validate_required([:title, :body, :tags])
     |> unique_constraint(:slug, name: :articles_slug_index)
     |> title_to_slugify()
-    |> IO.inspect()
   end
 
   def title_to_slugify(changeset) do

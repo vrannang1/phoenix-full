@@ -2,11 +2,10 @@ defmodule RealworldPhoenixWeb.CommentController do
   use RealworldPhoenixWeb, :controller
 
   alias RealworldPhoenix.Articles
-  alias RealworldPhoenix.Articles.Article
   alias RealworldPhoenix.Articles.Comment
   alias RealworldPhoenix.Repo
 
-  action_fallback RealworldPhoenixWeb.FallbackController
+  action_fallback(RealworldPhoenixWeb.FallbackController)
 
   def list(conn, %{"slug" => slug}) do
     user = Guardian.Plug.current_resource(conn)
@@ -15,12 +14,30 @@ defmodule RealworldPhoenixWeb.CommentController do
     render(conn, "list.json", comments: comments)
   end
 
-  def create(conn, %{"slug" => slug, "comment" => %{"body" => body}}) do
+  def create(conn, %{"comment" => comment_params}) do
+    params_with_atoms =
+      for {key, val} <- comment_params, into: %{}, do: {String.to_atom(key), val}
+
     with user <- Guardian.Plug.current_resource(conn),
-         %Article{} = article <- Articles.get_article_by_slug(slug),
-         {:ok, comment} = Articles.create_comment(%{body: body}, article, user) do
-      render(conn, "show.json", comment: comment |> Repo.preload(:author))
+    article <- Articles.get_article_by_slug(params_with_atoms[:slug]),
+         new_comment_params =
+           params_with_atoms |> Map.put(:author_id, user.id) |> Map.put(:article_id, article.id),
+         {:ok, comment} <- Articles.create_comment(new_comment_params) do
+      comment =
+        comment
+        |> Articles.comment_preload()
+
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.article_path(conn, :show, article))
+      |> render("show.json", comment: comment)
     end
+
+    # with user <- Guardian.Plug.current_resource(conn),
+    #      %Article{} = article <- Articles.get_article_by_slug(slug),
+    #      {:ok, comment} = Articles.create_comment(%{body: body}, article, user) do
+    #   render(conn, "show.json", comment: comment |> Repo.preload(:author))
+    # end
   end
 
   def delete(conn, %{"slug" => _, "id" => comment_id}) do
@@ -31,5 +48,9 @@ defmodule RealworldPhoenixWeb.CommentController do
          {:ok, _} <- Articles.delete_comment(comment) do
       send_resp(conn, 200, "")
     end
+  end
+
+  def temp do
+    # {{%MatchError{term: {:error, #Ecto.Changeset<action: :insert, changes: %{author_id: 1, article_id: 76}, errors: [body: {"can't be blank", [validation: :required]}], data: #RealworldPhoenix.Articles.Comment<>, valid?: false>}}
   end
 end

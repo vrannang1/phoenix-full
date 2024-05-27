@@ -20,6 +20,7 @@ defmodule RealworldPhoenix.Articles do
     article_or_articles
     |> Repo.preload(:author)
     |> Repo.preload(:favorites)
+
     # |> Repo.preload(:tagList)
   end
 
@@ -74,8 +75,9 @@ defmodule RealworldPhoenix.Articles do
   def article_where(query, []), do: query
 
   def article_where(query, [{:tag, tag} | _rest]) do
-    from q in query,
-    where: fragment("? = ANY(?)", ^tag, q.tags)
+    from(q in query,
+      where: fragment("? = ANY(?)", ^tag, q.tags)
+    )
   end
 
   def article_where(query, [{:author, author_name} | rest]) do
@@ -206,8 +208,15 @@ defmodule RealworldPhoenix.Articles do
     Article.changeset(article, attrs)
   end
 
+  def comment_preload(comment) do
+    comment
+    |> Repo.preload(:author)
+  end
+
+
   def create_comment(attrs) do
-    Comment.changeset(%Comment{}, attrs)
+    %Comment{}
+    |> Comment.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -218,6 +227,7 @@ defmodule RealworldPhoenix.Articles do
       |> Map.put(:author_id, author.id)
 
     Comment.changeset(%Comment{}, attrs)
+    |> IO.inspect()
     |> Repo.insert()
   end
 
