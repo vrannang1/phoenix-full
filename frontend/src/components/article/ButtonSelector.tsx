@@ -10,12 +10,16 @@ interface IButtonSelectorProps {
 const ButtonSelector = ({ articleInfo }: IButtonSelectorProps) => {
   const { data } = useGetUserQuery();
 
+  console.log(data.username, articleInfo.author.username);
+
   return (
     <>
+    
       {data.username === articleInfo.author.username ? (
-        <ButtonsWIthAccess articleInfo={articleInfo} />
+        <> <ButtonsWIthAccess articleInfo={articleInfo} /></>
       ) : (
-        <ButtonsWIthoutAccess articleInfo={articleInfo} />
+        <> <ButtonsWIthoutAccess articleInfo={articleInfo} /> </>
+        
       )}
     </>
   );

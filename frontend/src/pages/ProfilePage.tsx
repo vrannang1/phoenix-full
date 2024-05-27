@@ -5,10 +5,11 @@ import Profile from '@/components/Profile';
 import FeedList from '@/components/feed/FeedList';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-
-
+import { useContext } from 'react';
+import { UserContext } from '@/contexts/UserContextProvider';
 
 const ProfilePage = () => {
+  const { isLogin } = useContext(UserContext);
   const { state } = useLocation();
   const [page, setPage] = useState(1);
   const [isFavorited, setIsFavorited] = useState(false);
@@ -32,6 +33,7 @@ const ProfilePage = () => {
               </NavLink>
             </div>
           </Grid>
+          {isLogin ?
           <Grid item>
             <div style={{ marginLeft: '20px' }}> {/* Adjust the margin as needed */}
               <NavLink
@@ -44,7 +46,7 @@ const ProfilePage = () => {
                 Favorited Articles
               </NavLink>
             </div>
-          </Grid>
+          </Grid> : <></>}
         </Grid>
         <Routes>
           <Route

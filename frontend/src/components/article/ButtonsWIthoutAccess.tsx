@@ -16,7 +16,6 @@ const ButtonsWIthoutAccess = ({ articleInfo }: IButtonsWIthoutAccessProps) => {
 
   const onToggleFavorite = () => {
     const { slug } = articleInfo;
-
     if (articleInfo.favorited) {
       unfavoriteArticleMutation.mutate(
         { slug },
@@ -44,7 +43,7 @@ const ButtonsWIthoutAccess = ({ articleInfo }: IButtonsWIthoutAccessProps) => {
 
   const onToggleFollow = () => {
     const { username, following } = articleInfo.author;
-
+    console.log('username ', username, 'following ', following, !following);
     if (following) {
       unfollowUserMutation.mutate(
         { username },
@@ -71,15 +70,15 @@ const ButtonsWIthoutAccess = ({ articleInfo }: IButtonsWIthoutAccessProps) => {
 
   return (
     <>
-      <button
+      {/* <button
         type="button"
         className={`btn btn-sm btn-outline-${articleInfo.author.following ? 'primary' : 'secondary'}`}
         onClick={() => onToggleFollow()}
       >
         <i className="ion-plus-round"></i>
-        &nbsp; Follow {articleInfo.author.username} <span className="counter">(10)</span>
+        &nbsp; Follow {articleInfo.author.username}
       </button>
-      &nbsp;&nbsp;
+      &nbsp;&nbsp; */}
       <button
         type="button"
         className={`btn btn-sm btn-outline-${articleInfo.favorited ? 'primary' : 'secondary'}`}

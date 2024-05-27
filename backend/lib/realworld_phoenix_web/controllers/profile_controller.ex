@@ -19,6 +19,9 @@ defmodule RealworldPhoenixWeb.ProfileController do
   end
 
   def follow(conn, %{"username" => username}) do
+
+    IO.inspect username, label: "Follow controller"
+
     user = Guardian.Plug.current_resource(conn)
 
     with target_user <- Profiles.get_by_username(username),

@@ -25,5 +25,6 @@ defmodule RealworldPhoenix.Profiles.FollowRelated do
       name: :user_id_target_id_unique_index,
       message: @already_exists
     )
+    |> IO.inspect()
   end
 end

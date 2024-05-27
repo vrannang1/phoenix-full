@@ -5,15 +5,15 @@ defmodule RealworldPhoenix.Accounts.User do
   alias RealworldPhoenix.Accounts
 
   schema "users" do
-    field :bio, :string
-    field :email, :string
-    field :image, RealworldPhoenix.ImageUploader.Type
-    field :username, :string
-    field :password, :string, virtual: true
-    field :hashed_password, :string
-    field :uuid, :string
+    field(:bio, :string)
+    field(:email, :string)
+    field(:image, RealworldPhoenix.ImageUploader.Type)
+    field(:username, :string)
+    field(:password, :string, virtual: true)
+    field(:hashed_password, :string)
+    field(:uuid, :string)
 
-    field :following, :boolean, virtual: true
+    field(:following, :boolean, virtual: true)
 
     timestamps()
   end
@@ -25,14 +25,15 @@ defmodule RealworldPhoenix.Accounts.User do
         %Plug.Upload{} -> Map.merge(attrs, %{image: attrs[:photoUrl]})
         _ -> attrs
       end
-      |> IO.inspect
 
     user
-    |> cast(attributes, [:email, :username, :bio, :uuid,  :password])
+    |> cast(attributes, [:email, :username, :bio, :uuid, :password])
     |> check_uuid
     |> cast_attachments(attributes, [:image])
     |> validate_required([:email, :username, :password])
-    |> validate_format(:email, ~r/^^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$/, message: "must have no spaces, @ sign and 2 or 3 characters after period(.)")
+    |> validate_format(:email, ~r/^^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$/,
+      message: "must have no spaces, @ sign and 2 or 3 characters after period(.)"
+    )
     |> validate_length(:email, max: 160, message: "cannot be more than 160 characters")
     |> unique_constraint(:username, name: :users_username_index)
     |> unique_constraint(:email, name: :users_email_index)
@@ -53,7 +54,7 @@ defmodule RealworldPhoenix.Accounts.User do
     end
   end
 
-    @doc """
+  @doc """
   Verifies the password.
 
   If there is no user or the user doesn't have a password, we call
@@ -79,5 +80,4 @@ defmodule RealworldPhoenix.Accounts.User do
       add_error(changeset, :current_password, "is not valid")
     end
   end
-
 end

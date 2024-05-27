@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { UserContext } from '@/contexts/UserContextProvider';
 import Comment from '@/components/article/Comment';
 import routerMeta from '@/lib/routerMeta';
+import convertToDate from '@/lib/utils/convertToDate';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -22,22 +23,9 @@ const ArticlePage = () => {
 
   return (
     <>
-      <Box sx={{ height: 150, color: '#fff', bgcolor: '#333', padding: '2rem', marginBottom: '2rem' }}>
+      <Box sx={{ flexGrow: 1, marginTop: 5 }} >
         <Container maxWidth="lg">
-          <Typography variant="h5">{articleInfo.data.title}</Typography>
-          {/* <Typography variant="body1">
-            {articleInfo.data.description}
-          </Typography> */}
-          {/* {console.log(articleInfo.data)} */}
-          {articleInfo.data.tagList.map((tag: any) => {
-            return <Chip color="primary" key={tag} label={tag} />;
-          })}
-        </Container>
-      </Box>
-
-      <Box sx={{ flexGrow: 1 }}>
-        <Container maxWidth="lg">
-          <Grid container alignItems="center" spacing={2}>
+        <Grid container alignItems="center" spacing={2}>
             <Grid item xs={9}>
               <Grid container alignItems="center" spacing={0.5}>
                 <Grid item>
@@ -48,11 +36,12 @@ const ArticlePage = () => {
                     component={Link}
                     to={`/profile/${articleInfo.data.author.username}`}
                     state={articleInfo.data.author.username}
-                    variant="subtitle1"
+                    variant="h6"
                     sx={{ textDecoration: 'none', textTransform: 'capitalize' }}
                   >
                     {articleInfo.data.author.username}
                   </Typography>
+                  <Typography variant="subtitle2">{convertToDate(articleInfo.data.createdAt)}</Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -60,10 +49,11 @@ const ArticlePage = () => {
               {isLogin ? <ButtonSelector articleInfo={articleInfo.data} /> : <></>}
             </Grid>
           </Grid>
+          <Typography variant="h4" sx={{marginBottom: 2}}>{articleInfo.data.title}</Typography>
+          {articleInfo.data.tagList.map((tag: any) => {
+            return <Chip key={tag} label={tag} />;
+          })}
           <ReactMarkdown children={articleInfo.data.body} remarkPlugins={[remarkGfm]}></ReactMarkdown>
-          {articleInfo.data.tagList.map((tag: string) => (
-            <Chip key={tag} label={tag} />
-          ))}
         </Container>
       </Box>
       <Box sx={{ flexGrow: 1 }}>

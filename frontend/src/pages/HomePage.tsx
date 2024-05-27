@@ -43,8 +43,8 @@ const HomePage = () => {
       <Box sx={{ flexGrow: 1 }} style={{ marginTop: '20px' }}>
         <Container maxWidth="xl">
           <Grid container spacing={3}>
-            <Grid item xs={2}>
-              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Grid item xs={12} lg={2} >
+              <Box sx={{ borderBottom: 1, borderColor: 'divider', display: { xs: 'none', sm: 'block' } }} >
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} component="nav">
                   <ListItemButton>
                     <ListItemIcon>
@@ -62,7 +62,7 @@ const HomePage = () => {
               </Box>
             </Grid>
 
-            <Grid item xs={7}>
+            <Grid item xs={12} lg={7}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange}>
                   <Tab label="Global Feed" />
@@ -71,16 +71,27 @@ const HomePage = () => {
                 <FeedList articlesInfo={articlesInfo.data} toUrl={'/'} page={page} setPage={setPage} />
               </Box>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} lg={2} sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Box>
-                Popular Tags
-                {tagsInfo.data.map((tag: string) => (
-                  <List key={tag} dense={true}>
-                    <ListItem disablePadding>
-                      <ListItemText primary={tag} />
-                    </ListItem>
-                  </List>
-                ))}
+                <Typography variant="h6" margin={3}>
+                  Popular Tags
+                </Typography>
+                <Grid container spacing={2} margin={2}>
+                  {tagsInfo.data.map((tag: string) => (
+                    <Grid key={tag} item xs={8}>
+                      <Link
+                        to="/"
+                        key={tag}
+                        style={{ textDecoration: 'none', fontWeight: "bold" }}
+                        onClick={() => {
+                          setSelectedTag(tag);
+                        }}
+                      >
+                        #{tag}
+                      </Link>
+                    </Grid>
+                  ))}
+                </Grid>
               </Box>
             </Grid>
           </Grid>

@@ -49,12 +49,18 @@ const FollowButton = ({ profileName, isFollow }: IFollowButton) => {
   return (
     <>
       {data.username === profileName ? (
-        <Typography component={Link} to={routerMeta.SettingPage.path} variant="h5" color="white" sx={{ textDecoration: 'none' }}>
+        <Typography component={Link} to={routerMeta.SettingPage.path} variant="h5" sx={{ textDecoration: 'none' }}>
           <SettingsIcon /> Edit Settings
         </Typography>
       ) : (
-        <Typography component={Button} onClick={() => onToggleFollow()} variant="h5" color="white" sx={{ textDecoration: 'none', textTransform: "capitalize" }}>
-          {isFollow ? <AddCircleIcon /> : <AddCircleOutlineIcon />} Follow {profileName}</Typography>
+        <Typography
+          component={Button}
+          onClick={() => onToggleFollow()}
+          variant="h5"
+          sx={{ textDecoration: 'none', textTransform: 'capitalize' }}
+        >
+          {isFollow ? <AddCircleIcon /> : <AddCircleOutlineIcon />} Follow {profileName}
+        </Typography>
       )}
     </>
   );
@@ -62,7 +68,8 @@ const FollowButton = ({ profileName, isFollow }: IFollowButton) => {
 
 export default FollowButton;
 
-{/* <Link to={routerMeta.SettingPage.path} className="btn btn-sm btn-outline-secondary action-btn">
+{
+  /* <Link to={routerMeta.SettingPage.path} className="btn btn-sm btn-outline-secondary action-btn">
           <i className="ion-gear-a"></i>&nbsp; Edit Profile Settings
         </Link> 
       
@@ -77,4 +84,5 @@ export default FollowButton;
         </button>
       
       
-      */}
+      */
+}
