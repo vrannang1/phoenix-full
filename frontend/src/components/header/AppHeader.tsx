@@ -18,10 +18,11 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from './ToggleColorMode';
 import routerMeta, { IRouterMeta } from '@/lib/routerMeta';
+import logo from '../../assets/images/logo.png';
 
 const logoStyle = {
-  width: '140px',
-  height: 'auto',
+  width: 250,
+  height: 200,
   cursor: 'pointer',
 };
 
@@ -70,10 +71,7 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
               alignItems: 'center',
               justifyContent: 'space-between',
               flexShrink: 0,
-              bgcolor:
-                theme.palette.mode === 'light'
-                  ? 'rgba(255, 255, 255, 0.4)'
-                  : 'rgba(0, 0, 0, 0.4)',
+              bgcolor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)',
               backdropFilter: 'blur(24px)',
               maxHeight: 40,
               border: '1px solid',
@@ -93,19 +91,19 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                 px: 0,
               }}
             >
-              <MenuItem
-                component={Link}
-                to="/">
-                <img
-                  src={
-                    'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg'
-                  }
-                  style={logoStyle}
-                  alt="logo of sitemark"
+              <Link to="/">
+                <Box
+                  component="img"
+                  sx={{
+                    height: 260,
+                    marginBottom: 2,
+                  }}
+                  alt="Your logo."
+                  src={logo}
                 />
-              </MenuItem>
+              </Link>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <MenuItem
+                {/* <MenuItem
                   sx={{ py: '6px', px: '12px' }}
                 >
                   <Typography variant="body2" color="text.primary">
@@ -118,7 +116,7 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                   <Typography variant="body2" color="text.primary">
                     Testimonials
                   </Typography>
-                </MenuItem>
+                </MenuItem> */}
               </Box>
             </Box>
             <Box
@@ -170,7 +168,7 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                   >
                     <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
                   </Box>
-                  <MenuItem onClick={() => scrollToSection('features')}>
+                  {/* <MenuItem onClick={() => scrollToSection('features')}>
                     Features
                   </MenuItem>
                   <MenuItem onClick={() => scrollToSection('testimonials')}>
@@ -182,7 +180,7 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                   <MenuItem onClick={() => scrollToSection('pricing')}>
                     Pricing
                   </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
+                  <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem> */}
                   <Divider />
                   <MenuItem>
                     <Button

@@ -13,7 +13,10 @@ defmodule RealworldPhoenix.Articles.Article do
     field :slug, :string
     field :title, :string
     field :uuid, :string
-    field :image, RealworldPhoenix.ImageUploader.Type
+    field :source, :string, default: "annrapid"
+    field :externalUrl, :string
+    field :imageUrl, :string
+    field :coverImage, RealworldPhoenix.ImageUploader.Type
     field :tags, {:array, :string}, default: []
     belongs_to :author, User
 
@@ -31,18 +34,18 @@ defmodule RealworldPhoenix.Articles.Article do
   def changeset(article, attrs) do
     attributes =
       case attrs[:photoUrl] do
-        %Plug.Upload{} -> Map.merge(attrs, %{image: attrs[:photoUrl]})
+        %Plug.Upload{} -> Map.merge(attrs, %{coverImage: attrs[:photoUrl]})
         _ -> attrs
-      end |> IO.inspect
+      end
 
     article
-    |> cast(attributes, [:title, :description, :uuid, :tags, :body, :author_id])
+    |> cast(attributes, [:title, :description, :uuid, :tags, :body, :source, :externalUrl, :imageUrl, :author_id])
     |> check_uuid
-    |> cast_attachments(attributes, [:image])
+    |> cast_attachments(attributes, [:coverImage])
     |> cast_assoc(:author)
     # |> put_assoc(:tagList, parse_tags(attrs))
-    |> parse_tags(attributes)
-    |> validate_required([:title, :body, :tags])
+    # |> parse_tags(attributes)
+    |> validate_required([:title, :body])
     |> unique_constraint(:slug, name: :articles_slug_index)
     |> title_to_slugify()
   end
@@ -53,7 +56,6 @@ defmodule RealworldPhoenix.Articles.Article do
       title -> put_change(changeset, :slug, slugify(title))
     end
   end
-
   defp slugify(title) do
     title |> String.downcase() |> String.replace(~r/[^\w-]+/u, "-")
   end

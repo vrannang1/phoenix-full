@@ -61,7 +61,6 @@ const HomePage = () => {
                 </List>
               </Box>
             </Grid>
-
             <Grid item xs={12} lg={7}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange}>

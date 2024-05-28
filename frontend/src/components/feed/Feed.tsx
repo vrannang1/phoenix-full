@@ -13,16 +13,17 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
-import { CardActions } from '@mui/material';
+import { CardActions, CardMedia, Chip } from '@mui/material';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 interface IFeedProps {
   article: IArticle;
+  coverImage: boolean;
 }
 
-const Feed = ({ article }: IFeedProps) => {
+const Feed = ({ article, coverImage }: IFeedProps) => {
   const { isLogin } = useContext(UserContext);
   const navigate = useNavigate();
   const favoriteArticleMutation = useFavoriteArticleMutation();
@@ -61,41 +62,78 @@ const Feed = ({ article }: IFeedProps) => {
   };
 
   // const styles = { display: "flex", alignItems: "center" };
+  console.log(coverImage, 'imageUrl', article.imageUrl, 'coverImage', article.coverImage);
 
   return (
-    <div style={{ padding: 5 }} >
-      <Card sx={{ maxWidth: 900, ':hover': {
-      boxShadow: 20, // theme.shadows[20]
-    }, }}>
+    <div style={{ padding: 5 }}>
+      <Card
+        sx={{
+          maxWidth: 900,
+          ':hover': {
+            boxShadow: 5, // theme.shadows[20]
+          },
+        }}
+      >
+        {coverImage && (
+          <CardMedia
+            sx={{ height: 240 }}
+            image={article.coverImage ? article.coverImage : article.imageUrl}
+            title="green iguana"
+          />
+        )}
         <CardHeader
           avatar={
-            <Avatar src={article.author.image} component={Link} to={`/profile/${article.author.username}`} state={article.author.username} alt={article.author.image} />
+            <Avatar
+              src={article.author.image}
+              component={Link}
+              to={`/profile/${article.author.username}`}
+              state={article.author.username}
+              alt={article.author.image}
+            />
           }
           action={
-            <Button
-              onClick={() => onToggleFavorite()}
-            >
+            <Button onClick={() => onToggleFavorite()}>
               {article.favorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               {article.favoritesCount}
             </Button>
           }
-          title={<Typography sx={{ textTransform: 'capitalize', fontStyle: 'italic' }}>{article.author.username} </Typography>}
+          title={
+            <Typography sx={{ textTransform: 'capitalize', fontStyle: 'italic' }}>
+              {article.author.username}{' '}
+            </Typography>
+          }
           subheader={convertToDate(article.createdAt)}
         />
         <CardContent>
-          <Typography style={{ textDecoration: "none", boxShadow: "none" }} gutterBottom variant="h5" component={Link} to={`/article/${article.slug}`} state={article.slug}>
+          <Typography
+            style={{ textDecoration: 'none', boxShadow: 'none' }}
+            gutterBottom
+            variant="h5"
+            component={Link}
+            to={`/article/${article.slug}`}
+            state={article.slug}
+          >
             {article.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary"
+          <p>
+            {article.tagList.map((tag) => {
+              return <Chip key={tag} label={tag} />;
+            })}
+          </p>
+
+          {/* <Typography
+            variant="body2"
+            color="text.secondary"
             sx={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               display: '-webkit-box',
               WebkitLineClamp: '2',
               WebkitBoxOrient: 'vertical',
-            }}>
+            }}
+          >
             {article.body}
-          </Typography>
+          </Typography> */}
         </CardContent>
         <CardActions>
           {/* <Button size="small" color="primary" component={Link} to={`/article/${article.slug}`} state={article.slug}>

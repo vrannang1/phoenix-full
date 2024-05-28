@@ -4,7 +4,10 @@ export interface IArticle {
   description: string;
   body: string;
   tagList: string[];
+  source: string;
   createdAt: string;
+  imageUrl: string;
+  coverImage: string;
   updatedAt: string;
   favorited: true;
   favoritesCount: number;

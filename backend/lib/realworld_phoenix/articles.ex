@@ -57,7 +57,7 @@ defmodule RealworldPhoenix.Articles do
     |> Enum.take(10)
   end
 
-  def list_articles_feed(nil, params), do: nil
+  def list_articles_feed(nil, _params), do: nil
 
   def list_articles_feed(user, params \\ []) do
     {limit, params} = params |> Keyword.pop(:limit, @default_limit)
