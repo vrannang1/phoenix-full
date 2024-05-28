@@ -10,8 +10,6 @@ defmodule RealworldPhoenixWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
 
-    IO.inspect user_params
-
     with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
       {:ok, token, _} = encode_and_sign(user)
 

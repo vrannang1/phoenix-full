@@ -37,6 +37,12 @@ const SettingForm = ({ data }: ISettingFormProps) => {
   const navigate = useNavigate();
   const [userData, onChangeUserData] = useInputs({
     email: data.email,
+    firstName: data.firstName,
+    lastName: data.lastName,
+    url: data.url,
+    education: data.education,
+    work: data.work,
+    location: data.location,
     username: data.username,
     bio: data.bio,
     photoUrl: {},
@@ -92,6 +98,44 @@ const SettingForm = ({ data }: ISettingFormProps) => {
             </Button>
           </Grid>
         </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              size="small"
+              margin="normal"
+              variant="outlined"
+              placeholder="First Name"
+              name="firstName"
+              value={userData.firstName}
+              onChange={onChangeUserData}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              size="small"
+              margin="normal"
+              variant="outlined"
+              placeholder="Last Name"
+              name="lastName"
+              value={userData.lastName}
+              onChange={onChangeUserData}
+            />
+          </Grid>
+        </Grid>
+
+        <TextField
+          fullWidth
+          size="small"
+          type="url"
+          margin="normal"
+          variant="outlined"
+          placeholder="url"
+          name="url"
+          value={userData.url}
+          onChange={onChangeUserData}
+        />
         <TextField
           fullWidth
           size="small"
@@ -99,9 +143,12 @@ const SettingForm = ({ data }: ISettingFormProps) => {
           variant="outlined"
           placeholder="Username"
           name="username"
+          label="Username"
           value={userData.username}
           onChange={onChangeUserData}
         />
+
+
         <TextField
           fullWidth
           size="small"
@@ -111,6 +158,39 @@ const SettingForm = ({ data }: ISettingFormProps) => {
           placeholder="email"
           name="email"
           value={userData.email}
+          onChange={onChangeUserData}
+        />
+        <TextField
+          fullWidth
+          size="small"
+          type="email"
+          margin="normal"
+          variant="outlined"
+          placeholder="location"
+          name="location"
+          value={userData.location}
+          onChange={onChangeUserData}
+        />
+        <TextField
+          fullWidth
+          size="small"
+          type="email"
+          margin="normal"
+          variant="outlined"
+          placeholder="education"
+          name="education"
+          value={userData.education}
+          onChange={onChangeUserData}
+        />
+        <TextField
+          fullWidth
+          size="small"
+          type="email"
+          margin="normal"
+          variant="outlined"
+          placeholder="work"
+          name="work"
+          value={userData.work}
           onChange={onChangeUserData}
         />
         <TextField

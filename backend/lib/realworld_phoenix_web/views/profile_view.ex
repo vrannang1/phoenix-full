@@ -8,6 +8,18 @@ defmodule RealworldPhoenixWeb.ProfileView do
   end
 
   def render("profile.json", %{profile: profile, following: following}) do
-    %{username: profile.username, bio: profile.bio, image: ImageUploader.url({profile.image, profile}, String.to_atom("thumb")), following: following}
+    %{
+      username: profile.username,
+      fullName: Enum.join([profile.firstName, " ", profile.lastName]),
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      location: profile.location,
+      education: profile.education,
+      work: profile.work,
+      url: profile.work,
+      bio: profile.bio,
+      image: ImageUploader.url({profile.image, profile}, String.to_atom("thumb")),
+      following: following
+    }
   end
 end

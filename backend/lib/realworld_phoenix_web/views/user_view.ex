@@ -31,6 +31,13 @@ defmodule RealworldPhoenixWeb.UserView do
   def render("user.json", %{user: user}) do
     %{
       email: user.email,
+      fullName: Enum.join([user.firstName, " ", user.lastName]),
+      firstName: user.firstName,
+      lastName: user.lastName,
+      location: user.location,
+      url: user.url,
+      education: user.education,
+      work: user.work,
       username: user.username,
       bio: user.bio,
       image: ImageUploader.url({user.image,user}, String.to_atom("thumb"))
