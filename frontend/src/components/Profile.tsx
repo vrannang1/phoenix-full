@@ -22,7 +22,9 @@ interface IProfileProps {
 }
 
 const Profile = ({ profile }: IProfileProps) => {
+
   const { isLogin } = useContext(UserContext);
+  
   return (
     <>
       <Container component="main" maxWidth="sm">

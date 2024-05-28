@@ -4,23 +4,32 @@ defmodule RealworldPhoenixWeb.ProfileController do
   alias RealworldPhoenix.Accounts.User
   alias RealworldPhoenix.Profiles
 
-  action_fallback RealworldPhoenixWeb.FallbackController
+  action_fallback(RealworldPhoenixWeb.FallbackController)
 
   def show(conn, %{"username" => username}) do
-    profile = Profiles.get_by_username(username)
 
-    following =
-      case Guardian.Plug.current_resource(conn) do
-        %User{} = user -> Profiles.following?(user, profile)
-        _ -> false
-      end
+    IO.inspect Profiles.get_by_username(username), label: "username"
+    IO.inspect Guardian.Plug.current_resource(conn), label: "Guardian"
 
-    render(conn, "show.json", profile: profile, following: following)
+    with profile <- Profiles.get_by_username(username),
+         %User{} = user <- Guardian.Plug.current_resource(conn),
+         following <- Profiles.following?(user, profile) do
+      render(conn, "show.json", profile: profile, following: following)
+    end
+
+    # profile = Profiles.get_by_username(username)
+
+    # following =
+    #   case Guardian.Plug.current_resource(conn) do
+    #     %User{} = user -> Profiles.following?(user, profile)
+    #     _ -> false
+    #   end
+
+    # render(conn, "show.json", profile: profile, following: following)
   end
 
   def follow(conn, %{"username" => username}) do
-
-    IO.inspect username, label: "Follow controller"
+    IO.inspect(username, label: "Follow controller")
 
     user = Guardian.Plug.current_resource(conn)
 

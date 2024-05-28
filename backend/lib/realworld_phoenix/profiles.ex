@@ -10,8 +10,12 @@ defmodule RealworldPhoenix.Profiles do
   alias RealworldPhoenix.Profiles.FollowRelated
 
   def get_by_username(username) do
-    Repo.get_by!(User, username: username)
+    Repo.get_by(User, username: username)
   end
+
+  def following?(nil, nil), do: false
+  def following?(_user_id, nil), do: false
+  def following?(nil, _user_id), do: false
 
   def following?(%User{} = user, %User{} = target) do
     Repo.get_by(FollowRelated, user_id: user.id, target_id: target.id)
