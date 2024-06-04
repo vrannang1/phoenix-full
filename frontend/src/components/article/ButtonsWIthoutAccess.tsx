@@ -3,6 +3,7 @@ import { useFollowUserMutation, useUnFollowUserMutation } from '@/queries/profil
 import queryClient from '@/queries/queryClient';
 import { QUERY_ARTICLE_KEY } from '@/constants/query.constant';
 import { IArticle } from '@/interfaces/main';
+import { Button } from '@mui/material';
 
 interface IButtonsWIthoutAccessProps {
   articleInfo: IArticle;
@@ -79,14 +80,15 @@ const ButtonsWIthoutAccess = ({ articleInfo }: IButtonsWIthoutAccessProps) => {
         &nbsp; Follow {articleInfo.author.username}
       </button>
       &nbsp;&nbsp; */}
-      <button
+      <Button
         type="button"
+        variant={articleInfo.favorited ? "contained" : "outlined"}
         className={`btn btn-sm btn-outline-${articleInfo.favorited ? 'primary' : 'secondary'}`}
         onClick={() => onToggleFavorite()}
       >
         <i className="ion-heart"></i>
-        &nbsp; Favorite Post <span className="counter">{articleInfo.favoritesCount}</span>
-      </button>
+        &nbsp; Favorite <span>{' '}({articleInfo.favoritesCount})</span>
+      </Button>
     </>
   );
 };

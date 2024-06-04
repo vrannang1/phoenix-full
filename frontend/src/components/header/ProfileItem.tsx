@@ -12,7 +12,7 @@ const ProfileItem = () => {
         to={`profile/${data.username}`}
         state={data.username}>
         <Avatar alt={data.username} src={data.image} sx={{ width: 24, height: 24 }} />
-        <span style={{color: "black"}}> {data.username}</span>
+        <span style={{color: "black"}}> {data.firstName}</span>
       </MenuItem>
     </>
   );

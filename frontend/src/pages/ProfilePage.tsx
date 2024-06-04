@@ -59,6 +59,7 @@ const ProfilePage = () => {
                 component={NavLink}
                 to={`/profile/${state}`}
                 onClick={() => setIsFavorited(false)}
+                state={state}
               />
               {isLogin && (
                 <Tab
@@ -66,6 +67,7 @@ const ProfilePage = () => {
                   component={NavLink}
                   to={`/profile/${state}/favorites`}
                   onClick={() => setIsFavorited(true)}
+                  state={state}
                 />
               )}
             </Tabs>

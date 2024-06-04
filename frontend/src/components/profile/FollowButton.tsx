@@ -57,17 +57,17 @@ const FollowButton = ({ profileName, isFollow }: IFollowButton) => {
           startIcon={<SettingsIcon />}
           sx={{ marginRight: 1 }}
         >
-          Edit Settings
+          Settings
         </Button>
       ) : (
         <Button
           onClick={onToggleFollow}
-          variant="contained"
+          variant={isFollow ? "outlined" : "contained"}
           color="primary"
           startIcon={isFollow ? <AddCircleIcon /> : <AddCircleOutlineIcon />}
           sx={{ marginRight: 1 }}
         >
-          Follow {profileName}
+          {isFollow ? "Follow" : "Unfollow" }
         </Button>
       )}
     </>

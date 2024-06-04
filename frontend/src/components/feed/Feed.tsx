@@ -14,6 +14,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import { CardActions, CardMedia, Chip } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -61,9 +62,6 @@ const Feed = ({ article, coverImage }: IFeedProps) => {
     }
   };
 
-  // const styles = { display: "flex", alignItems: "center" };
-  console.log(coverImage, 'imageUrl', article.imageUrl, 'coverImage', article.coverImage);
-
   return (
     <div style={{ padding: 5 }}>
       <Card
@@ -89,20 +87,34 @@ const Feed = ({ article, coverImage }: IFeedProps) => {
               to={`/profile/${article.author.username}`}
               state={article.author.username}
               alt={article.author.image}
+              sx={{ marginRight: -1.4 }}
             />
           }
           action={
-            <Button onClick={() => onToggleFavorite()}>
-              {article.favorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-              {article.favoritesCount}
-            </Button>
+            <Tooltip title={article.favorited ? 'Unfavorite' : 'Favorite'}>
+              <Button onClick={() => onToggleFavorite()}>
+                {article.favorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                {article.favoritesCount}
+              </Button>
+            </Tooltip>
           }
           title={
-            <Typography sx={{ textTransform: 'capitalize', fontStyle: 'italic' }}>
-              {article.author.username}{' '}
+            <Typography
+              sx={{ textTransform: 'capitalize', textDecoration: 'none', fontWeight: 'bold' }}
+              component={Link}
+              to={`/profile/${article.author.username}`}
+              state={article.author.username}
+            >
+              {article.author.fullName}{' '}
             </Typography>
           }
-          subheader={convertToDate(article.createdAt)}
+          subheader={
+            <Typography
+              sx={{ textDecoration: 'none', fontSize: '13px' }}
+            >
+              {convertToDate(article.createdAt)}
+            </Typography>
+          }
         />
         <CardContent>
           <Typography

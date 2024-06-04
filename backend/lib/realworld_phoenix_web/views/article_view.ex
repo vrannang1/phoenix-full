@@ -42,6 +42,7 @@ defmodule RealworldPhoenixWeb.ArticleView do
   def render("author.json", %{article: author}) do
     %{
       username: author.username,
+      fullName: Enum.join([author.firstName, " ", author.lastName]),
       bio: author.bio,
       image: ImageUploader.url({author.image,author}, String.to_atom("thumb")),
       following: author.following

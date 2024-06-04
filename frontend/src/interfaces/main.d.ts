@@ -13,6 +13,7 @@ export interface IArticle {
   favoritesCount: number;
   author: {
     username: string;
+    fullName: string;
     bio: string;
     image: string;
     following: true;
