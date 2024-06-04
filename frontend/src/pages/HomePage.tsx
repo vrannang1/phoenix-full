@@ -18,6 +18,7 @@ import Typography from '@mui/material/Typography';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import HomeIcon from '@mui/icons-material/Home';
 import TagIcon from '@mui/icons-material/Tag';
+import { Button } from '@mui/material';
 
 const HomePage = () => {
   const { isLogin } = useContext(UserContext);

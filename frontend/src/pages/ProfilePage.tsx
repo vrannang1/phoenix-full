@@ -3,8 +3,7 @@ import { NavLink, Route, Routes, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import Profile from '@/components/Profile';
 import FeedList from '@/components/feed/FeedList';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
+import { Container, Tabs, Tab, Grid, Card, CardContent, Typography, Box, Divider } from '@mui/material';
 import { useContext } from 'react';
 import { UserContext } from '@/contexts/UserContextProvider';
 
@@ -15,65 +14,89 @@ const ProfilePage = () => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [profileInfo, articlesInfo] = useGetProfileQueries(state, page, isFavorited);
 
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setIsFavorited(newValue === 1);
+  };
+
   return (
     <div>
       <Profile profile={profileInfo.data} />
       <Container maxWidth="lg">
-        <Grid container spacing={2} alignItems="center">
-          <Grid item>
-            <div>
-              <NavLink
-                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                end
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={4} marginTop={2}>
+            <Card>
+              <CardContent>
+                <Typography variant="h5">Programming Languages</Typography>
+                <Divider sx={{ marginY: 1 }} />
+                <Typography variant="body2">JavaScript, Python, C++</Typography>
+              </CardContent>
+            </Card>
+            <Card sx={{ marginTop: 2 }}>
+              <CardContent>
+                <Typography variant="h5">Currently Learning</Typography>
+                <Divider sx={{ marginY: 1 }} />
+                <Typography variant="body2">TypeScript, Go</Typography>
+              </CardContent>
+            </Card>
+            <Card sx={{ marginTop: 2 }}>
+              <CardContent>
+                <Typography variant="h5">User Statistics</Typography>
+                <Divider sx={{ marginY: 1 }} />
+                <Typography variant="body2">Number of posts: 50</Typography>
+                <Typography variant="body2">Number of comments: 150</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <Tabs
+              value={location.pathname === `/profile/${state}/favorites` ? 1 : 0}
+              onChange={handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+            >
+              <Tab
+                label="My Articles"
+                component={NavLink}
                 to={`/profile/${state}`}
                 onClick={() => setIsFavorited(false)}
-                state={state}
-              >
-                My Articles
-              </NavLink>
-            </div>
+              />
+              {isLogin && (
+                <Tab
+                  label="Favorited Articles"
+                  component={NavLink}
+                  to={`/profile/${state}/favorites`}
+                  onClick={() => setIsFavorited(true)}
+                />
+              )}
+            </Tabs>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <FeedList
+                    articlesInfo={articlesInfo.data}
+                    toUrl={`/profile/${state}`}
+                    page={page}
+                    setPage={setPage}
+                  />
+                }
+              />
+              <Route
+                path="/favorites"
+                element={
+                  <FeedList
+                    articlesInfo={articlesInfo.data}
+                    toUrl={`/profile/${state}`}
+                    page={page}
+                    setPage={setPage}
+                  />
+                }
+              />
+            </Routes>
           </Grid>
-          {isLogin ?
-          <Grid item>
-            <div style={{ marginLeft: '20px' }}> {/* Adjust the margin as needed */}
-              <NavLink
-                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                end
-                to={`/profile/${state}/favorites`}
-                onClick={() => setIsFavorited(true)}
-                state={state}
-              >
-                Favorited Articles
-              </NavLink>
-            </div>
-          </Grid> : <></>}
         </Grid>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <FeedList
-                articlesInfo={articlesInfo.data}
-                toUrl={`/profile/${state}`}
-                page={page}
-                setPage={setPage}
-              />
-            }
-          />
-          <Route
-            path="/favorites"
-            element={
-              <FeedList
-                articlesInfo={articlesInfo.data}
-                toUrl={`/profile/${state}`}
-                page={page}
-                setPage={setPage}
-              />
-            }
-          />
-        </Routes>
       </Container>
-      </div>
+    </div>
   );
 };
 

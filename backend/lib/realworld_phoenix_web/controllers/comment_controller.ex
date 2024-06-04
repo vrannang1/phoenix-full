@@ -32,12 +32,6 @@ defmodule RealworldPhoenixWeb.CommentController do
       |> put_resp_header("location", Routes.article_path(conn, :show, article))
       |> render("show.json", comment: comment)
     end
-
-    # with user <- Guardian.Plug.current_resource(conn),
-    #      %Article{} = article <- Articles.get_article_by_slug(slug),
-    #      {:ok, comment} = Articles.create_comment(%{body: body}, article, user) do
-    #   render(conn, "show.json", comment: comment |> Repo.preload(:author))
-    # end
   end
 
   def delete(conn, %{"slug" => _, "id" => comment_id}) do

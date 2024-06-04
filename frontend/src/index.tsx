@@ -4,13 +4,18 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
 import queryClient from '@/queries/queryClient';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './muiTheme';
+import getLPTheme from './theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <ThemeProvider theme={getLPTheme('light')}>
+          <App />
+        </ThemeProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>,

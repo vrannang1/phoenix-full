@@ -4,7 +4,7 @@ import routerMeta from '@/lib/routerMeta';
 import { useFollowUserMutation, useUnFollowUserMutation } from '@/queries/profiles.query';
 import { useGetUserQuery } from '@/queries/user.query';
 import { Link } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -49,18 +49,26 @@ const FollowButton = ({ profileName, isFollow }: IFollowButton) => {
   return (
     <>
       {data.username === profileName ? (
-        <Typography component={Link} to={routerMeta.SettingPage.path} variant="h5" sx={{ textDecoration: 'none' }}>
-          <SettingsIcon /> Edit Settings
-        </Typography>
-      ) : (
-        <Typography
-          component={Button}
-          onClick={() => onToggleFollow()}
-          variant="h5"
-          sx={{ textDecoration: 'none', textTransform: 'capitalize' }}
+        <Button
+          component={Link}
+          to={routerMeta.SettingPage.path}
+          variant="contained"
+          color="primary"
+          startIcon={<SettingsIcon />}
+          sx={{ marginRight: 1 }}
         >
-          {isFollow ? <AddCircleIcon /> : <AddCircleOutlineIcon />} Follow {profileName}
-        </Typography>
+          Edit Settings
+        </Button>
+      ) : (
+        <Button
+          onClick={onToggleFollow}
+          variant="contained"
+          color="primary"
+          startIcon={isFollow ? <AddCircleIcon /> : <AddCircleOutlineIcon />}
+          sx={{ marginRight: 1 }}
+        >
+          Follow {profileName}
+        </Button>
       )}
     </>
   );
